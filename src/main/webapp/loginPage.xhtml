@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/template.xhtml">
+    <ui:define name="content">
+        <div style="margin: 40px auto; text-align: -webkit-center;">
+            <h:form prependId="false">
+
+                <p:panelGrid columns="1" styleClass="ui-fluid center ui-noborder">
+                    <h2>Вход</h2>
+
+                    <p:outputLabel value="Login failed!" styleClass="red"
+                                   rendered="${!empty param['error']}" />
+
+                    <p:inputText id="login" placeholder="User name" />
+                    <p:password id="password" placeholder="Password" />
+
+                    <p:commandButton value="Login" ajax="false" />
+                </p:panelGrid>
+
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>
