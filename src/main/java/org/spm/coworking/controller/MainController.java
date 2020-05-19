@@ -5,9 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.spm.coworking.entity.Rle;
-import org.spm.coworking.entity.Training;
 import org.spm.coworking.entity.UserProfile;
-import org.spm.coworking.repository.TrainingRepository;
 import org.spm.coworking.repository.UserProfileRepository;
 
 import java.util.Collections;
@@ -18,11 +16,8 @@ public class MainController {
 
     private final UserProfileRepository userProfileRepository;
 
-    private final TrainingRepository trainingRepository;
-
-    public MainController(UserProfileRepository userProfileRepository, TrainingRepository trainingRepository) {
+    public MainController(UserProfileRepository userProfileRepository) {
         this.userProfileRepository = userProfileRepository;
-        this.trainingRepository = trainingRepository;
     }
 
     //Мы могли бы расписать эти 2 маппинга отдельно, но смысла дублировать одинаковый код нет.
@@ -100,11 +95,11 @@ public class MainController {
         return "/trainingListPage.xhtml";
     }
 
-    @GetMapping("/delete_training")
+/*    @GetMapping("/delete_training")
     public String deleteTraining(@RequestParam(name = "id") Long id) {
         Optional<Training> training = trainingRepository.findByTrainingId(id);
         training.ifPresent(trainingRepository::delete);
         return "/trainingListPage.xhtml";
-    }
+    }*/
 
 }

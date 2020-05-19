@@ -28,7 +28,7 @@ public class ExtraInfoBean {
 	}
 
 	public int getTrainerCount(){
-		return userProfileRepository.findAllByRoles(Collections.singleton(Rle.TRAINER)).size();
+		return userProfileRepository.findAllByRoles(Collections.singleton(Rle.ROOT)).size();
 	}
 
 	public String getName() {

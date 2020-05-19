@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 import org.spm.coworking.entity.Rle;
 import org.spm.coworking.entity.UserProfile;
-import org.spm.coworking.repository.TrainingRepository;
 import org.spm.coworking.repository.UserProfileRepository;
 
 import javax.faces.application.FacesMessage;
@@ -30,13 +29,10 @@ public class RegistrationBean {
 
 	public Date date;
 
-    private final TrainingRepository trainingRepository;
-
     private final UserProfileRepository userProfileRepository;
 
-    public RegistrationBean(TrainingRepository trainingRepository, UserProfileRepository userProfileRepository) {
+    public RegistrationBean(UserProfileRepository userProfileRepository) {
         this.userProfileRepository = userProfileRepository;
-        this.trainingRepository = trainingRepository;
         userProfile = new UserProfile();
     }
 
@@ -76,7 +72,6 @@ public class RegistrationBean {
         if (!checkRegistrationForm(userProfile))
             return;
         userProfile.setRoles(Collections.singleton(Rle.ADMIN));
-		userProfile.setBirthday(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         userProfileRepository.save(userProfile);
         date = new Date();
 		userProfile = new UserProfile();
@@ -86,7 +81,6 @@ public class RegistrationBean {
         if (!checkRegistrationForm(userProfile))
             return;
         userProfile.setRoles(Collections.singleton(Rle.USER));
-		userProfile.setBirthday(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         userProfileRepository.save(userProfile);
 		date = new Date();
 		userProfile = new UserProfile();
@@ -95,8 +89,7 @@ public class RegistrationBean {
     public void saveTrainer() {
         if (!checkRegistrationForm(userProfile))
             return;
-        userProfile.setRoles(Collections.singleton(Rle.TRAINER));
-		userProfile.setBirthday(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        userProfile.setRoles(Collections.singleton(Rle.ROOT));
         userProfileRepository.save(userProfile);
 		date = new Date();
 		userProfile = new UserProfile();
