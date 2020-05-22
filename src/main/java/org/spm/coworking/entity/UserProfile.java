@@ -45,6 +45,9 @@ public class UserProfile implements Serializable {
     @Column(name = "entry_date")
     private Date entryDate;
 
+    @OneToMany(mappedBy="adminId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Office> managedOffices;
+
     @OneToMany(mappedBy="userId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Reservation> reservations;
 
