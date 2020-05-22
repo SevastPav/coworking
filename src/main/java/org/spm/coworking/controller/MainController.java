@@ -56,8 +56,13 @@ public class MainController {
     }
 
     @GetMapping("/home")
-    public String home() {
+    public String homeGet() {
         return "/welcomePage.xhtml";
+    }
+
+    @GetMapping("/search")
+    public String searchGet() {
+        return "/searchPage.xhtml";
     }
 
     @GetMapping("/training_desc")

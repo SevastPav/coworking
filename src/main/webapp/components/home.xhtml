@@ -8,45 +8,56 @@
 <ui:composition>
     <div class="container">
         <div class="row mt-5">
-            <div class="col-2"/>
-            <div class="col mt-5 border border-dark rounded w-100 h-100">
-                <div class="row mt-3">Найдите и забронируйте коворкинг прямо сейчас</div>
-                <div class="row mt-3">
-                    <div class="col-2"/>
-                    <div class="col">
-                        <p:selectOneMenu id="cityFilter" value="#{searchFilterBean.cityId}">
-                            <f:selectItem itemLabel="Город" itemValue="0" noSelectionOption="true"/>
-                            <f:selectItems value="#{searchFilterBean.cities}"/>
-                        </p:selectOneMenu>
+            <h:form>
+                <div class="col-2"/>
+                <div class="col mt-5 border border-dark rounded w-100 h-100">
+                    <div class="row mt-3">Найдите и забронируйте коворкинг прямо сейчас</div>
+                    <div class="row mt-3">
+                        <div class="col-2"/>
+                        <div class="col">
+                            <p:selectOneMenu id="cityFilter" value="#{searchFilterBean.cityId}">
+                                <f:selectItem itemLabel="Город" itemValue="0" noSelectionOption="true"/>
+                                <f:selectItems value="#{searchFilterBean.cities}"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="col">
+                            <p:selectOneMenu id="metroFilter" value="#{searchFilterBean.nearestMetroId}">
+                                <f:selectItem itemLabel="Ближайшее метро" itemValue="0" noSelectionOption="true"/>
+                                <f:selectItems value="#{searchFilterBean.metros}"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="col">
+                            <p:selectOneMenu id="rentTypeFilter" value="#{searchFilterBean.typeOfRentId}">
+                                <f:selectItem itemLabel="Тип аренды" itemValue="0" noSelectionOption="true"/>
+                                <f:selectItems value="#{searchFilterBean.rentTypes}"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="col">
+                            <p:selectOneMenu id="durationFilter" value="#{searchFilterBean.durationTypeId}">
+                                <f:selectItem itemLabel="Продолжительность аренды" itemValue="0"
+                                              noSelectionOption="true"/>
+                                <f:selectItems value="#{searchFilterBean.durationTypes}"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="col-2"/>
                     </div>
-                    <div class="col">
-                        <p:selectOneMenu id="metroFilter" value="#{searchFilterBean.nearestMetroId}">
-                            <f:selectItem itemLabel="Ближайшее метро" itemValue="0" noSelectionOption="true"/>
-                            <f:selectItems value="#{searchFilterBean.metros}"/>
-                        </p:selectOneMenu>
+                    <div class="row mt-3 mb-3">
+                        <div class="col"/>
+                        <div class="col-2">
+                            <h:commandButton value="Send"
+                                             action="searchPage?faces-redirect=true&amp;includeViewParams=true"/>
+                            <h:commandButton id="searchButton"
+                                             value="Поиск" action="#{searchFilterBean.redirect}">
+                                <f:param name="city" value="#{searchFilterBean.cityId}"/>
+                                <f:param name="metro" value="#{searchFilterBean.nearestMetroId}"/>
+                                <f:param name="rent" value="#{searchFilterBean.typeOfRentId}"/>
+                                <f:param name="duration" value="#{searchFilterBean.durationTypeId}"/>
+                            </h:commandButton>
+                        </div>
                     </div>
-                    <div class="col">
-                        <p:selectOneMenu id="rentTypeFilter" value="#{searchFilterBean.typeOfRentId}">
-                            <f:selectItem itemLabel="Тип аренды" itemValue="0" noSelectionOption="true"/>
-                            <f:selectItems value="#{searchFilterBean.rentTypes}"/>
-                        </p:selectOneMenu>
-                    </div>
-                    <div class="col">
-                        <p:selectOneMenu id="durationhFilter" value="#{searchFilterBean.durationTypeId}">
-                            <f:selectItem itemLabel="Продолжительность аренды" itemValue="0" noSelectionOption="true"/>
-                            <f:selectItems value="#{searchFilterBean.durationTypes}"/>
-                        </p:selectOneMenu>
-                    </div>
-                    <div class="col-2"/>
                 </div>
-                <div class="row mt-3 mb-3">
-                    <div class="col"/>
-                    <div class="col-2">
-                        <p:commandButton value="Поиск"/>
-                    </div>
-                </div>
-            </div>
-            <div class="col-2"/>
+                <div class="col-2"/>
+            </h:form>
         </div>
     </div>
 </ui:composition>
