@@ -44,10 +44,8 @@
                     <div class="row mt-3 mb-3">
                         <div class="col"/>
                         <div class="col-2">
-                            <h:commandButton value="Send"
-                                             action="searchPage?faces-redirect=true&amp;includeViewParams=true"/>
                             <h:commandButton id="searchButton"
-                                             value="Поиск" action="#{searchFilterBean.redirect}">
+                                             value="Поиск" action="#{searchFilterBean.redirectToSearchResult}">
                                 <f:param name="city" value="#{searchFilterBean.cityId}"/>
                                 <f:param name="metro" value="#{searchFilterBean.nearestMetroId}"/>
                                 <f:param name="rent" value="#{searchFilterBean.typeOfRentId}"/>

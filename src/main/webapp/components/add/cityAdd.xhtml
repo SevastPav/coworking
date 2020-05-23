@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<p:dialog styleClass="modal-window"
+          header="Добавить город"
+          widgetVar="cityAddDlg" modal="true" id="cityAddDlg">
+    <h:form>
+        <div class="container">
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+            <div class="row pt-3">
+                <div class="col-3">
+                    <h:outputLabel for="cityName" value="Название"/>
+                </div>
+                <div class="col">
+                    <p:inputText id="cityName" value="#{cityRegistrationBean.cityDto.name}"/>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col-4">
+                    <p:commandButton value="СОХРАНИТЬ" actionListener="#{cityRegistrationBean.createEntity}"
+                                     update="@form" ajax="true"/>
+                </div>
+                <div class="col text-right">
+                    <p:commandButton value="НЕ СОХРАНЯТЬ" actionListener="#{cityRegistrationBean.updateDto}"
+                                     oncomplete="PF('cityAddDlg').hide()" ajax="true"/>
+                </div>
+            </div>
+        </div>
+    </h:form>
+    <p:ajax event="close" update="cityAddDlg"/>
+</p:dialog>
+</html>

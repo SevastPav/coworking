@@ -7,9 +7,12 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
 public interface DurationTypeRepository extends JpaRepository<DurationType, Long>, JpaSpecificationExecutor<DurationType> {
     List<DurationType> findAll();
+
+    Optional<DurationType> findByDurationTypeId(Long durationTypeId);
 }

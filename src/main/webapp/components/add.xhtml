@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:sec="http://www.springframework.org/security/tags"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition>
+    <ui:include src="../components/add/cityAdd.xhtml"/>
+    <ui:include src="../components/add/metroAdd.xhtml"/>
+    <ui:include src="../components/add/rentAdd.xhtml"/>
+    <ui:include src="../components/add/durationAdd.xhtml"/>
+    <ui:include src="../components/add/officeAdd.xhtml"/>
+    <div class="container">
+        <div class="row mt-5">
+            <h:form>
+                <p:menubar styleClass="table-menu__main">
+                    <p:menuitem value="ДОБАВИТЬ ГОРОД"
+                                oncomplete="PF('cityAddDlg').show();"
+                                action="#{cityRegistrationBean.updateDto}"
+                                update=":#{p:component('cityAddDlg')}"/>
+                </p:menubar>
+            </h:form>
+
+            <h:form>
+                <p:menubar styleClass="table-menu__main">
+                    <p:menuitem value="ДОБАВИТЬ МЕТРО"
+                                oncomplete="PF('metroAddDlg').show();"
+                                action="#{metroRegistrationBean.updateDto}"
+                                update=":#{p:component('metroAddDlg')}"/>
+                </p:menubar>
+            </h:form>
+
+            <h:form>
+                <p:menubar styleClass="table-menu__main">
+                    <p:menuitem value="ДОБАВИТЬ ТИП АРЕНДЫ"
+                                oncomplete="PF('rentAddDlg').show();"
+                                action="#{rentTypeRegistrationBean.updateDto}"
+                                update=":#{p:component('rentAddDlg')}"/>
+                </p:menubar>
+            </h:form>
+
+            <h:form>
+                <p:menubar styleClass="table-menu__main">
+                    <p:menuitem value="ДОБАВИТЬ ПРОДОЛЖИТЕЛЬНОСТЬ АРЕНДЫ"
+                                oncomplete="PF('durationAddDlg').show();"
+                                action="#{durationTypeRegistrationBean.updateDto}"
+                                update=":#{p:component('durationAddDlg')}"/>
+                </p:menubar>
+            </h:form>
+
+            <h:form>
+                <p:menubar styleClass="table-menu__main">
+                    <p:menuitem value="ДОБАВИТЬ ОФИС"
+                                oncomplete="PF('officeAddDlg').show();"
+                                action="#{officeRegistrationBean.updateDto}"
+                                update=":#{p:component('officeAddDlg')}"/>
+                </p:menubar>
+            </h:form>
+        </div>
+    </div>
+</ui:composition>
+</html>

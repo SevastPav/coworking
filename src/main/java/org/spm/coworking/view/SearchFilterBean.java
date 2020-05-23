@@ -2,13 +2,12 @@ package org.spm.coworking.view;
 
 import lombok.Data;
 import org.spm.coworking.entity.*;
-import org.spm.coworking.services.RepoHolderService;
+import org.spm.coworking.services.ServiceHolder;
+import org.spm.coworking.services.repo.RepoHolderService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,33 +22,29 @@ public class SearchFilterBean {
     private Long typeOfRentId;
     private Long durationTypeId;
 
-    private final RepoHolderService repoHolderService;
+    private final ServiceHolder serviceHolder;
 
-    public SearchFilterBean(RepoHolderService repoHolderService) {
-        this.repoHolderService = repoHolderService;
+    public SearchFilterBean(ServiceHolder serviceHolder) {
+        this.serviceHolder = serviceHolder;
     }
 
     public Map<String, Long> getCities() {
-        List<City> cities = repoHolderService.getCityRepository().findAll();
-        return cities.stream().collect(Collectors.toMap(City::getName, City::getCityId));
+        return serviceHolder.getCityService().getCitiesMap();
     }
 
     public Map<String, Long> getMetros() {
-        List<Metro> metros = repoHolderService.getMetroRepository().findAll();
-        return metros.stream().collect(Collectors.toMap(Metro::getName, Metro::getMetroId));
+        return serviceHolder.getMetroService().getMetrosMap();
     }
 
     public Map<String, Long> getRentTypes() {
-        List<RentType> rentTypes = repoHolderService.getRentTypeRepository().findAll();
-        return rentTypes.stream().collect(Collectors.toMap(RentType::getTitle, RentType::getRentTypeId));
+        return serviceHolder.getRentTypeService().getRentTypesMap();
     }
 
     public Map<String, Long> getDurationTypes() {
-        List<DurationType> durationTypes = repoHolderService.getDurationTypeRepository().findAll();
-        return durationTypes.stream().collect(Collectors.toMap(DurationType::getTitle, DurationType::getDurationTypeId));
+        return serviceHolder.getDurationTypeService().getDurationTypesMap();
     }
 
-    public void redirect() throws IOException {
+    public void redirectToSearchResult() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("search");
     }
 

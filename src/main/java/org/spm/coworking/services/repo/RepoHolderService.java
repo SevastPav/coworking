@@ -1,10 +1,7 @@
-package org.spm.coworking.services;
+package org.spm.coworking.services.repo;
 
 import lombok.Getter;
-import org.spm.coworking.repository.CityRepository;
-import org.spm.coworking.repository.DurationTypeRepository;
-import org.spm.coworking.repository.MetroRepository;
-import org.spm.coworking.repository.RentTypeRepository;
+import org.spm.coworking.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -22,14 +19,22 @@ public class RepoHolderService {
 
     private final RentTypeRepository rentTypeRepository;
 
+    private final OfficeRepository officeRepository;
+
+    private final UserProfileRepository userProfileRepository;
+
     public RepoHolderService(CityRepository cityRepository,
                              DurationTypeRepository durationTypeRepository,
                              MetroRepository metroRepository,
-                             RentTypeRepository rentTypeRepository){
+                             RentTypeRepository rentTypeRepository,
+                             OfficeRepository officeRepository,
+                             UserProfileRepository userProfileRepository){
         this.cityRepository = cityRepository;
         this.durationTypeRepository = durationTypeRepository;
         this.metroRepository = metroRepository;
         this.rentTypeRepository = rentTypeRepository;
+        this.officeRepository = officeRepository;
+        this.userProfileRepository = userProfileRepository;
     }
 
 }

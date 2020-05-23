@@ -32,6 +32,11 @@ public class MainController {
         return "/loginPage.xhtml";
     }
 
+    @GetMapping("/add")
+    public String add() {
+        return "/addPage.xhtml";
+    }
+
 /*    @PostMapping("/login")
     public String loginPost() {
         return "/welcomePage.xhtml";

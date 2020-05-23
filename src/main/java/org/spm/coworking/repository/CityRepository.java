@@ -15,4 +15,6 @@ import java.util.Set;
 @Repository
 public interface CityRepository extends JpaRepository<City, Long>, JpaSpecificationExecutor<City> {
     List<City> findAll();
+
+    Optional<City> findByCityId(Long cityId);
 }

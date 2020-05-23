@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<p:dialog styleClass="modal-window"
+          header="Добавить офис"
+          widgetVar="officeAddDlg" modal="true" id="officeAddDlg">
+    <h:form>
+        <div class="container">
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+            <div class="row pt-3">
+                <div class="col-3">
+                    <h:outputLabel for="officeTitle" value="Название офиса"/>
+                </div>
+                <div class="col">
+                    <p:inputText id="officeTitle" value="#{officeRegistrationBean.officeDto.title}"/>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col-3">
+                    <h:outputLabel for="officeDescription" value="Описание офиса"/>
+                </div>
+                <div class="col">
+                    <p:inputText id="officeDescription" value="#{officeRegistrationBean.officeDto.description}"/>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col-3">
+                    <h:outputLabel for="address" value="Адрес офиса"/>
+                </div>
+                <div class="col">
+                    <p:inputText id="address" value="#{officeRegistrationBean.officeDto.address}"/>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col-3">
+                    <h:outputLabel for="admin" value="Администратор"/>
+                </div>
+                <div class="col">
+                    <p:selectOneMenu id="admin" value="#{officeRegistrationBean.cityId}">
+                        <f:selectItems value="#{serviceHolder.userProfileService.adminUsersMap}"/>
+                    </p:selectOneMenu>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col-3">
+                    <h:outputLabel for="city" value="Город"/>
+                </div>
+                <div class="col">
+                    <p:selectOneMenu id="city" value="#{officeRegistrationBean.cityId}">
+                        <f:selectItems value="#{serviceHolder.cityService.citiesMap}"/>
+                    </p:selectOneMenu>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col-4">
+                    <p:commandButton value="СОХРАНИТЬ" actionListener="#{officeRegistrationBean.createEntity}"
+                                     update="@form" ajax="true"/>
+                </div>
+                <div class="col text-right">
+                    <p:commandButton value="НЕ СОХРАНЯТЬ" actionListener="#{officeRegistrationBean.updateDto}"
+                                     oncomplete="PF('officeAddDlg').hide()" ajax="true"/>
+                </div>
+            </div>
+        </div>
+    </h:form>
+    <p:ajax event="close" update="officeAddDlg"/>
+</p:dialog>
+</html>

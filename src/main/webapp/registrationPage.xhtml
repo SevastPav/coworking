@@ -12,21 +12,17 @@
                         <p:autoUpdate/>
                     </p:messages>
 
-                    <p:inputText id="login" placeholder="Логин" value="#{registrationBean.userProfile.login}"/>
-                    <p:password id="password" placeholder="Пароль" value="#{registrationBean.userProfile.password}"/>
-                    <p:inputText id="fio" placeholder="ФИО" value="#{registrationBean.userProfile.fio}"/>
-                    <p:calendar id="onlydate" placeholder="День рождения" value="#{registrationBean.date}"/>
+                    <p:inputText id="login" placeholder="Логин" value="#{userProfileRegistrationBean.userProfileDto.login}"/>
+                    <p:password id="password" placeholder="Пароль" value="#{userProfileRegistrationBean.userProfileDto.password}"/>
+                    <p:inputText id="fio" placeholder="ФИО" value="#{userProfileRegistrationBean.userProfileDto.fio}"/>
 
                     <p:commandButton value="Зарегистрироваться" ajax="false"
-                                     action="#{registrationBean.saveClient()}" update="@form"/>
-                    <c:if test="#{authService.hasRole('ADMIN') || not authService.isAuth()}">
-                        <p:commandButton value="Зарегистрировать Администратора" ajax="false"
-                                         action="#{registrationBean.saveAdmin()}" update="@form"/>
-                        <p:commandButton value="Зарегистрировать Тренера" ajax="false"
-                                         action="#{registrationBean.saveTrainer()}" update="@form"/>
-                    </c:if>
+                                     action="#{userProfileRegistrationBean.saveUser()}" update="@form"/>
+                    <p:commandButton value="Зарегистрировать Администратора" ajax="false"
+                                     action="#{userProfileRegistrationBean.saveAdmin()}" update="@form"/>
+                    <p:commandButton value="Зарегистрировать Root" ajax="false"
+                                     action="#{userProfileRegistrationBean.saveRoot()}" update="@form"/>
                 </p:panelGrid>
-
             </h:form>
         </div>
     </ui:define>
