@@ -93,6 +93,12 @@
                     </div>
                 </div>
                 <div class="row pt-3">
+                    <p:selectOneMenu id="place" value="#{officeBean.placeId}">
+                        <f:selectItem itemLabel="Место" itemValue="0" noSelectionOption="true"/>
+                        <f:selectItems value="#{officeBean.internalPlacesMap}"/>
+                    </p:selectOneMenu>
+                </div>
+                <div class="row pt-3">
                     <p:selectOneMenu id="rentType" value="#{officeBean.typeOfRentId}">
                         <f:selectItem itemLabel="Тип аренды" itemValue="0" noSelectionOption="true"/>
                         <f:selectItems value="#{officeBean.rentTypesMap}"/>

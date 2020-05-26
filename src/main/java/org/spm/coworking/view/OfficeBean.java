@@ -2,13 +2,8 @@ package org.spm.coworking.view;
 
 import lombok.Data;
 import org.spm.coworking.entity.*;
-import org.spm.coworking.services.ServiceHolder;
 import org.spm.coworking.view.enityregistration.BaseRegistrationBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.context.annotation.SessionScope;
 
 import javax.faces.context.FacesContext;
@@ -29,6 +24,7 @@ public class OfficeBean extends BaseRegistrationBean {
     private Date time;
     private Long typeOfRentId;
     private Long durationTypeId;
+    private Long placeId;
 
     public Map<String, Long> getRentTypesMap() {
         return office.getRentTypes().stream().collect(Collectors
@@ -38,6 +34,11 @@ public class OfficeBean extends BaseRegistrationBean {
     public Map<String, Long> getDurationTypesMap() {
         return office.getDurationTypes().stream().collect(Collectors
                 .toMap(DurationType::getTitle, DurationType::getDurationTypeId));
+    }
+
+    public Map<String, Long> getInternalPlacesMap() {
+        return office.getPlaces().stream().collect(Collectors
+                .toMap(p -> String.valueOf(p.getInternalPlaceId()), Place::getPlaceId));
     }
 
     public List<Feature> getTop3Features() {
@@ -71,6 +72,11 @@ public class OfficeBean extends BaseRegistrationBean {
             error("Некорректное время");
             return false;
         }
+        if (placeId == 0) {
+            errors.add("Некорректное место");
+            error("Некорректное место");
+            return false;
+        }
         if (typeOfRentId == 0) {
             errors.add("Некорректный тип аренды");
             error("Некорректный тип аренды");
@@ -86,17 +92,26 @@ public class OfficeBean extends BaseRegistrationBean {
 
     @Override
     protected void saveDto() {
-        UserProfile user = serviceHolder.getAuthService().getCurrentUserProfile();
+        if (!serviceHolder.getAuthService().isAuth()){
+            return;
+        }
+        if (serviceHolder.getAuthService().hasRole(Rle.USER.name())){
+            UserProfile user = serviceHolder.getAuthService().getCurrentUserProfile();
 
-        DurationType durationType = serviceHolder
-                .getDurationTypeService().findByDurationTypeId(durationTypeId).get();
-        RentType rentType = serviceHolder
-                .getRentTypeService().findByRentTypeId(typeOfRentId).get();
-        reservationDto.setDurationTypeId(durationType);
-        reservationDto.setRentTypeId(rentType);
-        reservationDto.setDate(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-        reservationDto.setTime(time.toInstant().atZone(ZoneId.systemDefault()).toLocalTime());
-        reservationDto.setUserId(user);
+            DurationType durationType = serviceHolder
+                    .getDurationTypeService().findByDurationTypeId(durationTypeId).get();
+            RentType rentType = serviceHolder
+                    .getRentTypeService().findByRentTypeId(typeOfRentId).get();
+            Place place = serviceHolder
+                    .getPlaceService().findByPlaceId(placeId).get();
+            reservationDto.setDurationTypeId(durationType);
+            reservationDto.setRentTypeId(rentType);
+            reservationDto.setPlaceId(place);
+            reservationDto.setDate(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            reservationDto.setTime(time.toInstant().atZone(ZoneId.systemDefault()).toLocalTime());
+            reservationDto.setUserId(user);
+            serviceHolder.getReservationService().save(reservationDto);
+        }
     }
 
     @Override
@@ -106,5 +121,6 @@ public class OfficeBean extends BaseRegistrationBean {
         time = null;
         typeOfRentId = Long.valueOf(0);
         durationTypeId = Long.valueOf(0);
+        placeId = Long.valueOf(0);
     }
 }

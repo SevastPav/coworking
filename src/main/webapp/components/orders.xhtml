@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:sec="http://www.springframework.org/security/tags"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition>
+    <div class="container">
+        <div class="row">
+            <div class="col-7">
+                <h:form id="ordersForm">
+                    <ui:repeat var="reservation" value="#{orderBean.activeUserReservations}" varStatus="status">
+                        <h:form>
+                            <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row no-gutters">
+                                    <div class="col-md-4">
+                                        <img src="" class="card-img" alt="Фото"/>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">#{reservation.placeId.officeId.title}</h5>
+                                            <p class="card-text">Номер места: #{reservation.placeId.internalPlaceId}</p>
+                                            <p class="card-text">Описание места: #{reservation.placeId.description}</p>
+                                            <p class="card-text">Тип аренды: #{reservation.rentTypeId.title}</p>
+                                            <p class="card-text">Продолжительность: #{reservation.durationTypeId.title}</p>
+                                            <p class="card-text">Оплачено: #{reservation.paid}</p>
+                                            <p class="card-text">
+                                                <small class="text-muted">
+                                                    Дата: #{reservation.date}
+                                                </small>
+                                            </p>
+                                            <p class="card-text">
+                                                <small class="text-muted">
+                                                    Время: #{reservation.time}
+                                                </small>
+                                            </p>
+                                            <p:commandButton value="Отменить"
+                                                             ajax="false"
+                                                             actionListener="#{orderBean.cancelReservation(reservation.reservationId)}"
+                                                             update="@form"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </h:form>
+                    </ui:repeat>
+                </h:form>
+            </div>
+            <div class="col-5">
+
+            </div>
+        </div>
+    </div>
+</ui:composition>
+</html>

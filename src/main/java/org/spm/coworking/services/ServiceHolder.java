@@ -26,6 +26,8 @@ public class ServiceHolder {
 
     private final UserProfileService userProfileService;
 
+    private final ReservationService reservationService;
+
     public ServiceHolder(AuthService authService,
                          CityService cityService,
                          DurationTypeService durationTypeService,
@@ -34,7 +36,8 @@ public class ServiceHolder {
                          MetroService metroService,
                          OfficeService officeService,
                          RentTypeService rentTypeService,
-                         UserProfileService userProfileService) {
+                         UserProfileService userProfileService,
+                         ReservationService reservationService) {
         this.authService = authService;
         this.cityService = cityService;
         this.durationTypeService = durationTypeService;
@@ -44,6 +47,7 @@ public class ServiceHolder {
         this.officeService = officeService;
         this.rentTypeService = rentTypeService;
         this.userProfileService = userProfileService;
+        this.reservationService = reservationService;
     }
 
 }

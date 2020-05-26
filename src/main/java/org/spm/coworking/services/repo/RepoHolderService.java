@@ -17,6 +17,8 @@ public class RepoHolderService {
 
     private final FeatureRepository featureRepository;
 
+    private final ReservationRepository reservationRepository;
+
     private final PlaceRepository placeRepository;
 
     private final MetroRepository metroRepository;
@@ -30,6 +32,7 @@ public class RepoHolderService {
     public RepoHolderService(CityRepository cityRepository,
                              DurationTypeRepository durationTypeRepository,
                              FeatureRepository featureRepository,
+                             ReservationRepository reservationRepository,
                              PlaceRepository placeRepository,
                              MetroRepository metroRepository,
                              RentTypeRepository rentTypeRepository,
@@ -38,6 +41,7 @@ public class RepoHolderService {
         this.cityRepository = cityRepository;
         this.durationTypeRepository = durationTypeRepository;
         this.featureRepository = featureRepository;
+        this.reservationRepository = reservationRepository;
         this.placeRepository = placeRepository;
         this.metroRepository = metroRepository;
         this.rentTypeRepository = rentTypeRepository;

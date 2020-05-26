@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 @Getter
 public class OfficeService extends BaseRepoService<Office> {
 
-    public void save(Office office){
+    public void save(Office office) {
         repoHolderService.getOfficeRepository().save(office);
     }
 
-    public Office findByOfficeId(Long officeID){
+    public Office findByOfficeId(Long officeID) {
         Optional<Office> office = repoHolderService.getOfficeRepository().findByOfficeId(officeID);
         return office.orElse(null);
     }
@@ -29,7 +29,7 @@ public class OfficeService extends BaseRepoService<Office> {
                 .toMap(Office::getTitle, Office::getOfficeId));
     }
 
-    public List<Office> findAll(){
+    public List<Office> findAll() {
         return repoHolderService.getOfficeRepository().findAll();
     }
 
@@ -56,7 +56,7 @@ public class OfficeService extends BaseRepoService<Office> {
                         durationTypesOffices.stream().map(Office::getOfficeId).collect(Collectors.toSet()),
                         rentTypesOffices.stream().map(Office::getOfficeId).collect(Collectors.toSet()),
                         city);*/
-return repoHolderService.getOfficeRepository().findAll();
+        return repoHolderService.getOfficeRepository().findAll();
     }
 
     @Override
