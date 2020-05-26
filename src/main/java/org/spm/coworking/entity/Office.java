@@ -1,6 +1,8 @@
 package org.spm.coworking.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -46,28 +48,64 @@ public class Office implements Serializable {
     @OneToMany(mappedBy="officeId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Place> places;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "office_features",
             joinColumns = @JoinColumn(name = "office_id"),
             inverseJoinColumns = {@JoinColumn(name = "feature_id")})
+    @Fetch(value=FetchMode.SELECT)
     private Set<Feature> features;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "office_rent_types",
             joinColumns = @JoinColumn(name = "office_id"),
             inverseJoinColumns = {@JoinColumn(name = "rent_type_id")})
+    @Fetch(value= FetchMode.SELECT)
     private Set<RentType> rentTypes;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "office_duration_types",
             joinColumns = @JoinColumn(name = "office_id"),
             inverseJoinColumns = {@JoinColumn(name = "duration_type_id")})
+    @Fetch(value=FetchMode.SELECT)
     private Set<DurationType> durationTypes;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "office_metros",
             joinColumns = @JoinColumn(name = "office_id"),
             inverseJoinColumns = {@JoinColumn(name = "metro_id")})
+    @Fetch(value=FetchMode.SELECT)
     private Set<Metro> metros;
+
+    @Override
+    public String toString() {
+        return "Office [office=" + officeId
+                + ", title=" + title
+                + ", address=" + address
+                + "]";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        Office office = (Office) obj;
+        return office.equals(office.officeId);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((officeId == null) ? 0 : officeId.hashCode());
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((address == null) ? 0 : address.hashCode());
+        return result;
+    }
 
 }

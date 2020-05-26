@@ -51,6 +51,6 @@ abstract public class BaseRegistrationBean {
 
     public abstract void updateDto();
 
-    public abstract void hideDialogAfterSavingDto();
+    public void hideDialogAfterSavingDto(){};
 
 }

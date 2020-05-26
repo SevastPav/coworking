@@ -14,8 +14,9 @@ import java.util.stream.Stream;
 @Getter
 public class UserProfileService extends BaseRepoService<UserProfile> {
 
-    public Optional<UserProfile> findByUserId(Long id){
-        return  repoHolderService.getUserProfileRepository().findByUserId(id);
+    public UserProfile findByUserId(Long id){
+        Optional<UserProfile> userProfile = repoHolderService.getUserProfileRepository().findByUserId(id);
+        return userProfile.orElse(null);
     }
 
     public Optional<UserProfile> findByLogin(String username){

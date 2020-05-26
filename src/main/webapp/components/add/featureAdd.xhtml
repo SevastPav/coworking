@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<p:dialog styleClass="modal-window"
+          header="Добавить функцию"
+          widgetVar="featureAddDlg" modal="true" id="featureAddDlg">
+    <h:form>
+        <div class="container">
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+            <div class="row pt-3">
+                <div class="col-3">
+                    <h:outputLabel for="featureTitle" value="Название функции"/>
+                </div>
+                <div class="col">
+                    <p:inputText id="featureTitle" value="#{featureRegistrationBean.featureDto.title}"/>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col-3">
+                    <h:outputLabel for="featureDescription" value="Описание функции"/>
+                </div>
+                <div class="col">
+                    <p:inputText id="featureDescription" value="#{featureRegistrationBean.featureDto.description}"/>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col-4">
+                    <p:commandButton value="СОХРАНИТЬ" actionListener="#{featureRegistrationBean.createEntity}"
+                                     update="@form" ajax="true"/>
+                </div>
+                <div class="col text-right">
+                    <p:commandButton value="НЕ СОХРАНЯТЬ" actionListener="#{featureRegistrationBean.updateDto}"
+                                     oncomplete="PF('featureAddDlg').hide()" ajax="true"/>
+                </div>
+            </div>
+        </div>
+    </h:form>
+    <p:ajax event="close" update="featureAddDlg"/>
+</p:dialog>
+</html>

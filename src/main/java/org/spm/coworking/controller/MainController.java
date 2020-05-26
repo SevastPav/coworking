@@ -70,6 +70,11 @@ public class MainController {
         return "/searchPage.xhtml";
     }
 
+    @GetMapping("/office")
+    public String officeGet() {
+        return "/officePage.xhtml";
+    }
+
     @GetMapping("/training_desc")
     public String trainingDesc() {
         return "/trainingDescPage.xhtml";

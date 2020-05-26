@@ -7,15 +7,71 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 <ui:composition>
     <div class="container">
-        <ui:repeat var="office" value="#{searchResultBean.getOffices()}" varStatus="status">
-            <h:form>
-                <div class="card ml-2" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">#{office.title}</h5>
-                    </div>
-                </div>
-            </h:form>
-        </ui:repeat>
+        <div class="row">
+            <div class="col-7">
+                <ui:repeat var="office" value="#{searchResultBean.getOffices()}" varStatus="status">
+                    <h:form>
+                        <div class="card mb-3" style="max-width: 540px;">
+                            <div class="row no-gutters">
+                                <div class="col-md-4">
+                                    <img src="" class="card-img" alt="Фото"/>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">#{office.title}</h5>
+                                        <p class="card-text">#{office.description}</p>
+                                        <p class="card-text">
+                                            <small class="text-muted">
+                                                Город: #{office.cityId.name}
+                                            </small>
+                                            <small class="text-muted">
+                                                Адрес: #{office.address}
+                                            </small>
+                                        </p>
+                                        <h:commandButton id="moreInfoButton"
+                                                         value="Перейти" action="#{searchResultBean.redirectToOfficePage}">
+                                            <f:param name="office" value="#{office.officeId}"/>
+                                        </h:commandButton>
+                                    </div>
+                                    <div class="card-footer">
+                                        <p>
+                                            <small class="text-muted">
+                                                Продожительности:
+                                            </small>
+                                            <ui:repeat var="duration" value="#{office.durationTypes}"
+                                                       varStatus="durationStatus">
+                                                <span class="badge badge-info">#{duration.title}</span>
+                                            </ui:repeat>
+                                        </p>
+                                        <p>
+                                            <small class="text-muted">
+                                                Тип аренды:
+                                            </small>
+                                            <ui:repeat var="rent" value="#{office.rentTypes}" varStatus="rentStatus">
+                                                <span class="badge badge-info">#{rent.title}</span>
+                                            </ui:repeat>
+                                        </p>
+                                        <p>
+                                            <small class="text-muted">
+                                                Возможности:
+                                            </small>
+                                            <ui:repeat var="feature" value="#{office.features}"
+                                                       varStatus="featureStatus">
+                                                <span class="badge badge-secondary">#{feature.title}</span>
+                                            </ui:repeat>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </h:form>
+                </ui:repeat>
+            </div>
+            <div class="col-5">
+                <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A07b66e98e01564901e0f0f0f5b6241ab639179149435f73b3a5a8e13261cc1e7&amp;source=constructor"
+                        width="424" height="365" frameborder="0"></iframe>
+            </div>
+        </div>
     </div>
 </ui:composition>
 </html>

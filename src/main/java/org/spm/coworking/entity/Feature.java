@@ -1,6 +1,8 @@
 package org.spm.coworking.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -29,6 +31,30 @@ public class Feature implements Serializable {
     private String description;
 
     @ManyToMany(mappedBy = "features")
+    @Fetch(value= FetchMode.SELECT)
     private Set<Office> offices;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        Feature city = (Feature) obj;
+        return city.equals(city.featureId);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((featureId == null) ? 0 : featureId.hashCode());
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + ((description == null) ? 0 : description.hashCode());
+        return result;
+    }
 
 }

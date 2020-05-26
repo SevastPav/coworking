@@ -24,6 +24,9 @@ public class SearchResultBean {
     @Autowired
     private SearchFilterBean searchFilterBean;
 
+    @Autowired
+    private OfficeBean officeBean;
+
     private final ServiceHolder serviceHolder;
 
     public SearchResultBean(ServiceHolder serviceHolder) {
@@ -32,6 +35,13 @@ public class SearchResultBean {
 
     public List<Office> getOffices(){
         City city = serviceHolder.getCityService().findCityById(searchFilterBean.getCityId());
+
+/*        Set<Office> metros = serviceHolder.getMetroService()
+                .getOfficesByEntityId(searchFilterBean.getNearestMetroId());
+        Set<Office> rentTypes = serviceHolder.getRentTypeService()
+                .getOfficesByEntityId(searchFilterBean.getTypeOfRentId());
+        Set<Office> durationTypes = serviceHolder.getDurationTypeService()
+                .getOfficesByEntityId(searchFilterBean.getTypeOfRentId());*/
 
         Set<Metro> metros = serviceHolder.getMetroService()
                 .getEntitiesByIdIfNullReturnAll(searchFilterBean.getNearestMetroId());
@@ -43,13 +53,20 @@ public class SearchResultBean {
         if (city == null){
             return serviceHolder.getOfficeService().findAll();
         }
-
-        return serviceHolder.getOfficeService()
-                .findOfficesByCityMetroRentDuration(city, metros, rentTypes, durationTypes);
+        return serviceHolder.getOfficeService().findAll();
+/*        return serviceHolder.getOfficeService()
+                .findOfficesByCityMetroRentDuration(city, metros, rentTypes, durationTypes);*/
     }
 
     public void redirect() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("search");
+    }
+
+    public void redirectToOfficePage() throws IOException {
+        Office office = (Office) FacesContext.getCurrentInstance()
+                .getExternalContext().getRequestMap().get("office");
+        officeBean.setOffice(office);
+        FacesContext.getCurrentInstance().getExternalContext().redirect("office");
     }
 
 }

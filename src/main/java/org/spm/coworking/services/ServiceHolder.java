@@ -8,9 +8,15 @@ import org.springframework.stereotype.Service;
 @Getter
 public class ServiceHolder {
 
+    private final AuthService authService;
+
     private final CityService cityService;
 
     private final DurationTypeService durationTypeService;
+
+    private final FeatureService featureService;
+
+    private final PlaceService placeService;
 
     private final MetroService metroService;
 
@@ -20,14 +26,20 @@ public class ServiceHolder {
 
     private final UserProfileService userProfileService;
 
-    public ServiceHolder(CityService cityService,
+    public ServiceHolder(AuthService authService,
+                         CityService cityService,
                          DurationTypeService durationTypeService,
+                         FeatureService featureService,
+                         PlaceService placeService,
                          MetroService metroService,
                          OfficeService officeService,
                          RentTypeService rentTypeService,
-                         UserProfileService userProfileService){
+                         UserProfileService userProfileService) {
+        this.authService = authService;
         this.cityService = cityService;
         this.durationTypeService = durationTypeService;
+        this.featureService = featureService;
+        this.placeService = placeService;
         this.metroService = metroService;
         this.officeService = officeService;
         this.rentTypeService = rentTypeService;

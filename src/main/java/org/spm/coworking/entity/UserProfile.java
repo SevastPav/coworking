@@ -58,4 +58,36 @@ public class UserProfile implements Serializable {
     public void setFio(String test) {
         this.fio = test;
     }
+
+    @Override
+    public String toString() {
+        return "UserProfile [userId=" + userId
+                + ", login=" + login
+                + ", fio=" + fio
+                + "]";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        UserProfile userProfile = (UserProfile) obj;
+        return userProfile.equals(userProfile.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+        result = prime * result + ((login == null) ? 0 : login.hashCode());
+        result = prime * result + ((fio == null) ? 0 : fio.hashCode());
+        result = prime * result + ((entryDate == null) ? 0 : entryDate.hashCode());
+        return result;
+    }
 }

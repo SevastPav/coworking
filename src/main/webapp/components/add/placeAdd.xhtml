@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<p:dialog styleClass="modal-window"
+          header="Добавить место в офисе"
+          maximizable="true"
+          widgetVar="placeAddDlg" modal="true" id="placeAddDlg">
+    <h:form>
+        <div class="container">
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+            <div class="row pt-3">
+                <div class="col-3">
+                    <h:outputLabel for="internalPlaceId" value="Внутренний номер места"/>
+                </div>
+                <div class="col">
+                    <p:inputText id="internalPlaceId" value="#{placeRegistrationBean.placeDto.internalPlaceId}"/>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col-3">
+                    <h:outputLabel for="placeDescription" value="Описание места"/>
+                </div>
+                <div class="col">
+                    <p:inputText id="placeDescription" value="#{placeRegistrationBean.placeDto.description}"/>
+                </div>
+            </div>
+
+            <div class="row pt-3">
+                <div class="col-3">
+                    <h:outputLabel for="office" value="Офис"/>
+                </div>
+                <div class="col">
+                    <p:selectOneMenu id="office" value="#{placeRegistrationBean.officeId}">
+                        <f:selectItem itemLabel="Офис" itemValue="0" noSelectionOption="true"/>
+                        <f:selectItems value="#{placeRegistrationBean.placesMap}"/>
+                    </p:selectOneMenu>
+                </div>
+            </div>
+
+            <div class="row pt-3">
+                <div class="col-4">
+                    <p:commandButton value="СОХРАНИТЬ" actionListener="#{placeRegistrationBean.createEntity}"
+                                     update="@form" ajax="true"/>
+                </div>
+                <div class="col text-right">
+                    <p:commandButton value="НЕ СОХРАНЯТЬ" actionListener="#{placeRegistrationBean.updateDto}"
+                                     oncomplete="PF('placeAddDlg').hide()" ajax="true"/>
+                </div>
+            </div>
+        </div>
+    </h:form>
+    <p:ajax event="close" update="placeAddDlg"/>
+</p:dialog>
+</html>

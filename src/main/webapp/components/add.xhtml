@@ -11,6 +11,8 @@
     <ui:include src="../components/add/rentAdd.xhtml"/>
     <ui:include src="../components/add/durationAdd.xhtml"/>
     <ui:include src="../components/add/officeAdd.xhtml"/>
+    <ui:include src="../components/add/featureAdd.xhtml"/>
+    <ui:include src="../components/add/placeAdd.xhtml"/>
     <div class="container">
         <div class="row mt-5">
             <h:form>
@@ -51,12 +53,31 @@
 
             <h:form>
                 <p:menubar styleClass="table-menu__main">
+                    <p:menuitem value="ДОБАВИТЬ ФУНКЦИЮ"
+                                oncomplete="PF('featureAddDlg').show();"
+                                action="#{featureRegistrationBean.updateDto}"
+                                update=":#{p:component('featureAddDlg')}"/>
+                </p:menubar>
+            </h:form>
+
+            <h:form>
+                <p:menubar styleClass="table-menu__main">
                     <p:menuitem value="ДОБАВИТЬ ОФИС"
                                 oncomplete="PF('officeAddDlg').show();"
                                 action="#{officeRegistrationBean.updateDto}"
                                 update=":#{p:component('officeAddDlg')}"/>
                 </p:menubar>
             </h:form>
+
+            <h:form>
+                <p:menubar styleClass="table-menu__main">
+                    <p:menuitem value="ДОБАВИТЬ МЕСТО В ОФИСЕ"
+                                oncomplete="PF('placeAddDlg').show();"
+                                action="#{officeRegistrationBean.updateDto}"
+                                update=":#{p:component('placeAddDlg')}"/>
+                </p:menubar>
+            </h:form>
+
         </div>
     </div>
 </ui:composition>
