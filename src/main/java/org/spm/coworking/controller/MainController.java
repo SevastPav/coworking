@@ -37,6 +37,11 @@ public class MainController {
         return "/addPage.xhtml";
     }
 
+    @GetMapping("/acc")
+    public String acc() {
+        return "/accPage.xhtml";
+    }
+
     @GetMapping("/orders")
     public String orders() {
         return "/ordersPage.xhtml";

@@ -11,47 +11,47 @@
             <div class="col-7">
                 <ui:repeat var="office" value="#{searchResultBean.getOffices()}" varStatus="status">
                     <h:form>
-                        <div class="card mb-3" style="max-width: 540px;">
-                            <div class="row no-gutters">
-                                <div class="col-md-4">
+                        <p:fieldset legend="#{office.title}" toggleable="true" toggleSpeed="500">
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-2">
                                     <img src="" class="card-img" alt="Фото"/>
                                 </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title">#{office.title}</h5>
-                                        <p class="card-text">#{office.description}</p>
-                                        <p class="card-text">
-                                            <small class="text-muted">
-                                                Город: #{office.cityId.name}
-                                            </small>
-                                            <small class="text-muted">
-                                                Адрес: #{office.address}
-                                            </small>
-                                        </p>
-                                        <h:commandButton id="moreInfoButton"
-                                                         value="Перейти" action="#{searchResultBean.redirectToOfficePage}">
-                                            <f:param name="office" value="#{office.officeId}"/>
-                                        </h:commandButton>
+                                <div class="ui-g-12 ui-md-10 ui-g-nopad">
+                                    <div class="ui-g-12">
+                                        #{office.description}
                                     </div>
-                                    <div class="card-footer">
-                                        <p>
-                                            <small class="text-muted">
-                                                Продожительности:
-                                            </small>
-                                            <ui:repeat var="duration" value="#{office.durationTypes}"
-                                                       varStatus="durationStatus">
-                                                <span class="badge badge-info">#{duration.title}</span>
-                                            </ui:repeat>
-                                        </p>
-                                        <p>
-                                            <small class="text-muted">
-                                                Тип аренды:
-                                            </small>
-                                            <ui:repeat var="rent" value="#{office.rentTypes}" varStatus="rentStatus">
-                                                <span class="badge badge-info">#{rent.title}</span>
-                                            </ui:repeat>
-                                        </p>
-                                        <p>
+                                    <div class="ui-g-12 ui-g-nopad">
+                                        <div class="ui-g-7" style="font-size: 12px;">
+                                            Город: #{office.cityId.name} Адрес: #{office.address}
+                                        </div>
+                                        <div class="ui-g-5" style="text-align: right; font-size: 12px;">
+                                            <h:commandButton id="moreInfoButton"
+                                                             value="Перейти"
+                                                             action="#{searchResultBean.redirectToOfficePage}">
+                                                <f:param name="office" value="#{office.officeId}"/>
+                                            </h:commandButton>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12">
+                                        <small class="text-muted">
+                                            Продожительности:
+                                        </small>
+                                        <ui:repeat var="duration" value="#{office.durationTypes}"
+                                                   varStatus="durationStatus">
+                                            <span class="badge badge-info">#{duration.title}</span>
+                                        </ui:repeat>
+                                    </div>
+                                    <div class="ui-g-12">
+                                        <small class="text-muted">
+                                            Тип аренды:
+                                        </small>
+                                        <ui:repeat var="rent" value="#{office.rentTypes}"
+                                                   varStatus="rentStatus">
+                                            <span class="badge badge-info">#{rent.title}</span>
+                                        </ui:repeat>
+                                    </div>
+                                    <div class="ui-g-12">
+                                        <p:row>
                                             <small class="text-muted">
                                                 Возможности:
                                             </small>
@@ -59,11 +59,11 @@
                                                        varStatus="featureStatus">
                                                 <span class="badge badge-secondary">#{feature.title}</span>
                                             </ui:repeat>
-                                        </p>
+                                        </p:row>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </p:fieldset>
                     </h:form>
                 </ui:repeat>
             </div>

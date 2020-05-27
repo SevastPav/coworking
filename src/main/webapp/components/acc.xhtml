@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:sec="http://www.springframework.org/security/tags"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition>
+    <div class="container">
+        <h:form>
+            <div class="ui-g">
+                <p:selectOneMenu id="office" value="#{personalAreaBean.officeId}">
+                    <f:selectItems value="#{personalAreaBean.officesMap}"/>
+                    <p:ajax update="@form" listener="#{personalAreaBean.onChange}"/>
+                </p:selectOneMenu>
+            </div>
+            <div class="ui-g">
+                <h5 class="card-title">#{personalAreaBean.officeDto.title}</h5>
+            </div>
+        </h:form>
+    </div>
+</ui:composition>
+</html>

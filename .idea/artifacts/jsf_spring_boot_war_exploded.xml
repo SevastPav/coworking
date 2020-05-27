@@ -100,6 +100,7 @@
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-taglibs:5.2.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-acl:5.0.6.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:5.0.6.RELEASE" />
+          <element id="library" level="project" name="Maven: org.primefaces.themes:all-themes:1.0.10" />
         </element>
       </element>
       <element id="directory" name="META-INF">
