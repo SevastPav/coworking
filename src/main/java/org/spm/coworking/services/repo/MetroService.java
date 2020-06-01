@@ -1,6 +1,7 @@
 package org.spm.coworking.services.repo;
 
 import lombok.Getter;
+import org.primefaces.component.collector.Collector;
 import org.spm.coworking.entity.*;
 import org.spm.coworking.repository.*;
 import org.springframework.beans.Mergeable;
@@ -27,10 +28,19 @@ public class MetroService extends BaseRepoService<Metro> {
         repoHolderService.getMetroRepository().save(metro);
     }
 
-    public Set<Office> getOfficesByEntityId(long id) {
-        Optional<Metro> metro = repoHolderService.getMetroRepository()
-                .findByMetroId(id);
-        return metro.get().getOffices();
+    @Override
+    public Set<Long> getOfficesIdsByEntityIds(List<Long> ids) {
+        if (ids.isEmpty()){
+            return getAllOfficesIds();
+        }
+        Set<Office> offices = new HashSet<>();
+        List<Metro> metros = repoHolderService
+                .getMetroRepository().findAllByMetroIds(new HashSet<>(ids));
+        metros.forEach(c -> {
+            offices.addAll(c.getOffices());
+        });
+        return offices.stream()
+                .map(Office::getOfficeId).collect(Collectors.toSet());
     }
 
     @Override

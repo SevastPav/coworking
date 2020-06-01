@@ -37,6 +37,9 @@ public class Office implements Serializable {
     @Column(name = "active", nullable = false)
     private Boolean active = Boolean.TRUE;
 
+    @OneToOne(mappedBy = "office", cascade = CascadeType.MERGE)
+    private Image officeMainImage;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="user_id")
     private UserProfile adminId;

@@ -4,12 +4,14 @@ import lombok.Data;
 import org.spm.coworking.entity.*;
 import org.spm.coworking.services.ServiceHolder;
 import org.spm.coworking.services.repo.RepoHolderService;
+import org.spm.coworking.utils.SomeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import javax.faces.context.FacesContext;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -20,6 +22,11 @@ import java.util.stream.Stream;
 @Data
 @SessionScope
 public class SearchResultBean {
+
+    private List<Long> cityIds = new ArrayList<>();
+    private List<Long> nearestMetroIds = new ArrayList<>();
+    private List<Long> typeOfRentIds = new ArrayList<>();
+    private List<Long> durationTypeIds = new ArrayList<>();
 
     @Autowired
     private SearchFilterBean searchFilterBean;
@@ -34,31 +41,24 @@ public class SearchResultBean {
     }
 
     public List<Office> getOffices(){
-        City city = serviceHolder.getCityService().findCityById(searchFilterBean.getCityId());
+        Set<Long> cityIds = serviceHolder.getCityService()
+                .getOfficesIdsByEntityIds(this.cityIds);
+        Set<Long> metroIds = serviceHolder.getMetroService()
+                .getOfficesIdsByEntityIds(this.nearestMetroIds);
+        Set<Long> rentTypeIds = serviceHolder.getRentTypeService()
+                .getOfficesIdsByEntityIds(this.typeOfRentIds);
+        Set<Long> durationTypeIds = serviceHolder.getDurationTypeService()
+                .getOfficesIdsByEntityIds(this.durationTypeIds);
 
-/*        Set<Office> metros = serviceHolder.getMetroService()
-                .getOfficesByEntityId(searchFilterBean.getNearestMetroId());
-        Set<Office> rentTypes = serviceHolder.getRentTypeService()
-                .getOfficesByEntityId(searchFilterBean.getTypeOfRentId());
-        Set<Office> durationTypes = serviceHolder.getDurationTypeService()
-                .getOfficesByEntityId(searchFilterBean.getTypeOfRentId());*/
-
-        Set<Metro> metros = serviceHolder.getMetroService()
-                .getEntitiesByIdIfNullReturnAll(searchFilterBean.getNearestMetroId());
-        Set<RentType> rentTypes = serviceHolder.getRentTypeService()
-                .getEntitiesByIdIfNullReturnAll(searchFilterBean.getTypeOfRentId());
-        Set<DurationType> durationTypes = serviceHolder.getDurationTypeService()
-                .getEntitiesByIdIfNullReturnAll(searchFilterBean.getDurationTypeId());
-
-        if (city == null){
-            return serviceHolder.getOfficeService().findAll();
+        if (SomeUtils.isAnyEmpty(cityIds, metroIds, rentTypeIds, durationTypeIds)){
+            return new ArrayList<>();
         }
-        return serviceHolder.getOfficeService().findAll();
-/*        return serviceHolder.getOfficeService()
-                .findOfficesByCityMetroRentDuration(city, metros, rentTypes, durationTypes);*/
+
+        return serviceHolder.getOfficeService()
+                .findOfficesByCityMetroRentDuration(cityIds, metroIds, rentTypeIds, durationTypeIds);
     }
 
-    public void redirect() throws IOException {
+    public void redirectToSearchResult() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("search");
     }
 

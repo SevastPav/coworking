@@ -1,12 +1,16 @@
 package org.spm.coworking.view;
 
 import lombok.Data;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.spm.coworking.entity.*;
 import org.spm.coworking.view.enityregistration.BaseRegistrationBean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.ZoneId;
 import java.util.*;
@@ -122,5 +126,27 @@ public class OfficeBean extends BaseRegistrationBean {
         typeOfRentId = Long.valueOf(0);
         durationTypeId = Long.valueOf(0);
         placeId = Long.valueOf(0);
+    }
+
+    public StreamedContent getFeatureIcon() {
+        if (FacesContext.getCurrentInstance().getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+            // So, we're rendering the view. Return a stub StreamedContent so that it will generate right URL.
+            return new DefaultStreamedContent();
+        }
+        else {
+            // So, browser is requesting the image. Return a real StreamedContent with the image bytes.
+            Map<String, String> params = FacesContext.getCurrentInstance()
+                    .getExternalContext().getRequestParameterMap();
+
+            Long featureId = Long.valueOf(params.get("feature_id"));
+            Optional<Feature> feature = serviceHolder
+                    .getFeatureService().findByFeatureId(featureId);
+            if (feature.isPresent()  && feature.get().getFeatureIcon().getImage() != null){
+                return new DefaultStreamedContent(
+                        new ByteArrayInputStream(feature.get().getFeatureIcon().getImage()),
+                        "image/jpeg");
+            }
+            return new DefaultStreamedContent();
+        }
     }
 }

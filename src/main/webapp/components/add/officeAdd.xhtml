@@ -2,12 +2,13 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 <p:dialog styleClass="modal-window"
           header="Добавить офис"
           maximizable="true"
           widgetVar="officeAddDlg" modal="true" id="officeAddDlg">
-    <h:form>
+    <h:form enctype="multipart/form-data">
         <div class="container">
             <p:messages id="messages" showDetail="true" closable="true">
                 <p:autoUpdate/>
@@ -36,26 +37,30 @@
                     <p:inputText id="address" value="#{officeRegistrationBean.officeDto.address}"/>
                 </div>
             </div>
-            <div class="row pt-3">
-                <div class="col-3">
-                    <h:outputLabel for="admin" value="Администратор"/>
+            <c:if test="#{not officeRegistrationBean.edit}">
+                <div class="row pt-3">
+                    <div class="col-3">
+                        <h:outputLabel for="admin" value="Администратор"/>
+                    </div>
+                    <div class="col">
+                        <p:selectOneMenu id="admin" value="#{officeRegistrationBean.adminId}">
+                            <f:selectItems value="#{serviceHolder.userProfileService.adminUsersMap}"/>
+                        </p:selectOneMenu>
+                    </div>
                 </div>
-                <div class="col">
-                    <p:selectOneMenu id="admin" value="#{officeRegistrationBean.adminId}">
-                        <f:selectItems value="#{serviceHolder.userProfileService.adminUsersMap}"/>
-                    </p:selectOneMenu>
+            </c:if>
+            <c:if test="#{not officeRegistrationBean.edit}">
+                <div class="row pt-3">
+                    <div class="col-3">
+                        <h:outputLabel for="city" value="Город"/>
+                    </div>
+                    <div class="col">
+                        <p:selectOneMenu id="city" value="#{officeRegistrationBean.cityId}">
+                            <f:selectItems value="#{serviceHolder.cityService.citiesMap}"/>
+                        </p:selectOneMenu>
+                    </div>
                 </div>
-            </div>
-            <div class="row pt-3">
-                <div class="col-3">
-                    <h:outputLabel for="city" value="Город"/>
-                </div>
-                <div class="col">
-                    <p:selectOneMenu id="city" value="#{officeRegistrationBean.cityId}">
-                        <f:selectItems value="#{serviceHolder.cityService.citiesMap}"/>
-                    </p:selectOneMenu>
-                </div>
-            </div>
+            </c:if>
 
             <div class="row pt-3">
                 <div class="col-3">
@@ -65,7 +70,7 @@
                     <p:selectCheckboxMenu id="metros" value="#{officeRegistrationBean.metroIds}"
                                           label="Метро"
                                           filter="true" filterMatchMode="startsWith" panelStyle="width:500px;">
-                        <f:selectItems value="#{serviceHolder.metroService.metrosMap}" />
+                        <f:selectItems value="#{serviceHolder.metroService.metrosMap}"/>
                     </p:selectCheckboxMenu>
                 </div>
             </div>
@@ -78,7 +83,7 @@
                     <p:selectCheckboxMenu id="features" value="#{officeRegistrationBean.featuresIds}"
                                           label="Функции"
                                           filter="true" filterMatchMode="startsWith" panelStyle="width:500px;">
-                        <f:selectItems value="#{serviceHolder.featureService.featuresTypesMap}" />
+                        <f:selectItems value="#{serviceHolder.featureService.featuresTypesMap}"/>
                     </p:selectCheckboxMenu>
                 </div>
             </div>
@@ -91,7 +96,7 @@
                     <p:selectCheckboxMenu id="rent" value="#{officeRegistrationBean.rentIds}"
                                           label="Типы аренды"
                                           filter="true" filterMatchMode="startsWith" panelStyle="width:500px;">
-                        <f:selectItems value="#{serviceHolder.rentTypeService.rentTypesMap}" />
+                        <f:selectItems value="#{serviceHolder.rentTypeService.rentTypesMap}"/>
                     </p:selectCheckboxMenu>
                 </div>
             </div>
@@ -104,21 +109,35 @@
                     <p:selectCheckboxMenu id="duration" value="#{officeRegistrationBean.durationIds}"
                                           label="Типы продолжительности"
                                           filter="true" filterMatchMode="startsWith" panelStyle="width:500px;">
-                        <f:selectItems value="#{serviceHolder.durationTypeService.durationTypesMap}" />
+                        <f:selectItems value="#{serviceHolder.durationTypeService.durationTypesMap}"/>
                     </p:selectCheckboxMenu>
                 </div>
             </div>
 
-            <div class="row pt-3">
-                <div class="col-4">
-                    <p:commandButton value="СОХРАНИТЬ" actionListener="#{officeRegistrationBean.createEntity}"
-                                     update="@form" ajax="true"/>
+            <c:if test="#{officeRegistrationBean.edit}">
+                <div class="row pt-3">
+                    <div class="col-4">
+                        <p:commandButton value="СОХРАНИТЬ" actionListener="#{officeRegistrationBean.editEntity}"
+                                         update="@form" ajax="true"/>
+                    </div>
+                    <div class="col text-right">
+                        <p:commandButton value="НЕ СОХРАНЯТЬ" actionListener="#{officeRegistrationBean.updateForEditDto}"
+                                         oncomplete="PF('officeAddDlg').hide()" ajax="true"/>
+                    </div>
                 </div>
-                <div class="col text-right">
-                    <p:commandButton value="НЕ СОХРАНЯТЬ" actionListener="#{officeRegistrationBean.updateDto}"
-                                     oncomplete="PF('officeAddDlg').hide()" ajax="true"/>
+            </c:if>
+            <c:if test="#{not officeRegistrationBean.edit}">
+                <div class="row pt-3">
+                    <div class="col-4">
+                        <p:commandButton value="СОХРАНИТЬ" actionListener="#{officeRegistrationBean.createEntity}"
+                                         update="@form" ajax="true"/>
+                    </div>
+                    <div class="col text-right">
+                        <p:commandButton value="НЕ СОХРАНЯТЬ" actionListener="#{officeRegistrationBean.updateDto}"
+                                         oncomplete="PF('officeAddDlg').hide()" ajax="true"/>
+                    </div>
                 </div>
-            </div>
+            </c:if>
         </div>
     </h:form>
     <p:ajax event="close" update="officeAddDlg"/>

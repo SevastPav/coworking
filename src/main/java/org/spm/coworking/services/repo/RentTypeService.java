@@ -28,10 +28,19 @@ public class RentTypeService extends BaseRepoService<RentType> {
         return rentTypes.stream().collect(Collectors.toMap(RentType::getTitle, RentType::getRentTypeId));
     }
 
-    public Set<Office> getOfficesByEntityId(long id) {
-        Optional<RentType> rentTypes = repoHolderService.getRentTypeRepository()
-                .findByRentTypeId(id);
-        return rentTypes.get().getOffices();
+    @Override
+    public Set<Long> getOfficesIdsByEntityIds(List<Long> ids) {
+        if (ids.isEmpty()){
+            return getAllOfficesIds();
+        }
+        Set<Office> offices = new HashSet<>();
+        List<RentType> rentTypes = repoHolderService
+                .getRentTypeRepository().findAllByRentTypeIds(new HashSet<>(ids));
+        rentTypes.forEach(c -> {
+            offices.addAll(c.getOffices());
+        });
+        return offices.stream()
+                .map(Office::getOfficeId).collect(Collectors.toSet());
     }
 
     @Override

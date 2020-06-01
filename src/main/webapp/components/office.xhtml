@@ -6,115 +6,144 @@
       xmlns:sec="http://www.springframework.org/security/tags"
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 <ui:composition>
-    <div class="container">
-        <div class="row mt-3">
+    <div class="ui-g-12 ui-g-nopad mt-5">
+        <div class="ui-g ui-g-nopad">
             <p class="card-text">Коворкинг центр #{officeBean.office.title}</p>
         </div>
-        <div class="row">
+        <div class="ui-g ui-g-nopad">
             <p class="card-text">
                 <small class="text-muted">
                     Адрес: #{officeBean.office.address}
                 </small>
             </p>
         </div>
-        <div class="row mt-3">
+        <div class="ui-g ui-g-nopad">
             <p class="card-text">Здесь типа фото</p>
         </div>
-        <div class="row mt-3">
-            <div class="col-6">
+        <div class="ui-g ui-g-nopad mt-3">
+            <p class="card-text">Функции</p>
+        </div>
+        <div class="ui-g ui-g-nopad">
+            <div class="ui-g-6 ui-g-nopad">
                 <ui:repeat var="feature"
                            value="#{officeBean.top3Features}"
                            varStatus="featureStatus">
-                    <div class="row">
-                        <div class="col-2">
-                            <p class="card-text">Icon</p>
+                    <div class="ui-g ui-g-nopad">
+                        <div class="ui-g-2">
+                            <p:graphicImage cache="false" value="#{officeBean.featureIcon}" height="100px" width="100px">
+                                <f:param name="feature_id" value="#{feature.featureId}"/>
+                            </p:graphicImage>
                         </div>
-                        <div class="col-10">
-                            <div class="row">
+                        <div class="ui-g-10 ui-g-nopad">
+                            <div class="ui-g">
                                 <h5 class="card-title">#{feature.title}</h5>
                             </div>
-                            <div class="row">
+                            <div class="ui-g">
                                 <p class="card-text">#{feature.description}</p>
                             </div>
                         </div>
                     </div>
                 </ui:repeat>
             </div>
-            <div class="col-6">
-                <div class="row">
-                    <h5 class="card-title">Функции</h5>
-                </div>
-                <div class="row">
-                    <div class="col-6">
+            <div class="ui-g-6 ui-g-nopad">
+                <div class="ui-g ui-g-nopad">
+                    <div class="ui-g-6">
                         <ui:repeat var="feature"
                                    value="#{officeBean.firstHalfFeatures}"
                                    varStatus="featureStatus">
-                            <div class="row">
-                                <div class="col-3">Icon</div>
-                                <div class="col-9">#{feature.title}</div>
+                            <div class="ui-g ui-g-nopad">
+                                <div class="ui-g-3">
+                                    <p:graphicImage cache="false" value="#{officeBean.featureIcon}" height="100px" width="100px">
+                                        <f:param name="feature_id" value="#{feature.featureId}"/>
+                                    </p:graphicImage>
+                                </div>
+                                <div class="ui-g-9">#{feature.title}</div>
                             </div>
                         </ui:repeat>
                     </div>
-                    <div class="col-6">
+                    <div class="ui-g-6">
                         <ui:repeat var="feature"
                                    value="#{officeBean.secondHalfFeatures}"
                                    varStatus="featureStatus">
-                            <div class="row">
-                                <div class="col-3">Icon</div>
-                                <div class="col-9">#{feature.title}</div>
+                            <div class="ui-g ui-g-nopad">
+                                <div class="ui-g-3">
+                                    <p:graphicImage cache="false" value="#{officeBean.featureIcon}" height="100px" width="100px">
+                                        <f:param name="feature_id" value="#{feature.featureId}"/>
+                                    </p:graphicImage>
+                                </div>
+                                <div class="ui-g-9">#{feature.title}</div>
                             </div>
                         </ui:repeat>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
+        <div class="ui-g ui-g-nopad mt-3">
             <p class="card-text">#{officeBean.office.description}</p>
         </div>
-        <div class="row mt-3">
+        <div class="ui-g-6 ui-g-nopad card mt-3">
             <h:form>
-                <p:messages id="messages" showDetail="true" closable="true">
-                    <p:autoUpdate/>
-                </p:messages>
-                <div class="row pt-3">
-                    <div class="col-3">
+                <div class="ui-g-12 ui-g-nopad">
+                    <p:messages id="messages" showDetail="true" closable="true">
+                        <p:autoUpdate/>
+                    </p:messages>
+                </div>
+                <div class="ui-g-12 ui-g-nopad mt-3">
+                    <div class="ui-g-6">
                         <p:outputLabel for="onlydate" value="Дата"/>
                     </div>
-                    <div class="col">
+                    <div class="ui-g-6 ui-g-nopad">
                         <p:calendar id="onlydate" value="#{officeBean.date}"/>
                     </div>
                 </div>
-                <div class="row pt-3">
-                    <div class="col-3">
+                <div class="ui-g-12 ui-g-nopad mt-3">
+                    <div class="ui-g-6">
                         <p:outputLabel for="time" value="Время"/>
                     </div>
-                    <div class="col">
+                    <div class="ui-g-6 ui-g-nopad">
                         <p:calendar id="time" value="#{officeBean.time}" pattern="HH:mm" timeOnly="true"/>
                     </div>
                 </div>
-                <div class="row pt-3">
-                    <p:selectOneMenu id="place" value="#{officeBean.placeId}">
-                        <f:selectItem itemLabel="Место" itemValue="0" noSelectionOption="true"/>
-                        <f:selectItems value="#{officeBean.internalPlacesMap}"/>
-                    </p:selectOneMenu>
+                <div class="ui-g-12 ui-g-nopad mt-3">
+                    <div class="ui-g-6">
+                        <p:outputLabel for="place" value="Место"/>
+                    </div>
+                    <div class="ui-g-6 ui-g-nopad">
+                        <p:selectOneMenu id="place" value="#{officeBean.placeId}">
+                            <f:selectItem itemLabel="Выбрать" itemValue="0" noSelectionOption="true"/>
+                            <f:selectItems value="#{officeBean.internalPlacesMap}"/>
+                        </p:selectOneMenu>
+                    </div>
                 </div>
-                <div class="row pt-3">
-                    <p:selectOneMenu id="rentType" value="#{officeBean.typeOfRentId}">
-                        <f:selectItem itemLabel="Тип аренды" itemValue="0" noSelectionOption="true"/>
-                        <f:selectItems value="#{officeBean.rentTypesMap}"/>
-                    </p:selectOneMenu>
+                <div class="ui-g-12 ui-g-nopad mt-3">
+                    <div class="ui-g-6">
+                        <p:outputLabel for="rentType" value="Тип аренды"/>
+                    </div>
+                    <div class="ui-g-6 ui-g-nopad">
+                        <p:selectOneMenu id="rentType" value="#{officeBean.typeOfRentId}">
+                            <f:selectItem itemLabel="Выбрать" itemValue="0" noSelectionOption="true"/>
+                            <f:selectItems value="#{officeBean.rentTypesMap}"/>
+                        </p:selectOneMenu>
+                    </div>
                 </div>
-                <div class="row pt-3">
-                    <p:selectOneMenu id="duration" value="#{officeBean.durationTypeId}">
-                        <f:selectItem itemLabel="Продолжительность аренды" itemValue="0"
-                                      noSelectionOption="true"/>
-                        <f:selectItems value="#{officeBean.durationTypesMap}"/>
-                    </p:selectOneMenu>
+                <div class="ui-g-12 ui-g-nopad mt-3">
+                    <div class="ui-g-6">
+                        <p:outputLabel for="duration" value="Продолжительность"/>
+                    </div>
+                    <div class="ui-g-6 ui-g-nopad">
+                        <p:selectOneMenu id="duration" value="#{officeBean.durationTypeId}">
+                            <f:selectItem itemLabel="Выбрать" itemValue="0"
+                                          noSelectionOption="true"/>
+                            <f:selectItems value="#{officeBean.durationTypesMap}"/>
+                        </p:selectOneMenu>
+                    </div>
                 </div>
-                <div class="row pt-3">
-                    <div class="col-4">
-                        <p:commandButton value="СОХРАНИТЬ" actionListener="#{officeBean.createEntity}"
-                                         update="@form" ajax="true"/>
+                <div class="ui-g-12 ui-g-nopad mt-3">
+                    <div class="ui-g-12" style="text-align: right;">
+                        <p:commandButton value="СОХРАНИТЬ"
+                                         actionListener="#{officeBean.createEntity}"
+                                         update="@form"
+                                         ajax="true"/>
                     </div>
                 </div>
             </h:form>

@@ -14,6 +14,7 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.servlet.annotation.MultipartConfig;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -45,9 +46,19 @@ abstract public class BaseRegistrationBean {
         hideDialogAfterSavingDto();
     };
 
+    public void editEntity(){
+        if (!validateDto())
+            return;
+        editDto();
+        updateDto();
+        hideDialogAfterSavingDto();
+    };
+
     protected abstract boolean validateDto();
 
     protected abstract void saveDto();
+
+    protected void editDto(){};
 
     public abstract void updateDto();
 

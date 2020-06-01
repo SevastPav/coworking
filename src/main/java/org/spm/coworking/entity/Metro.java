@@ -27,7 +27,7 @@ public class Metro implements Serializable {
     @Column(name = "name", length = 255)
     private String name;
 
-    @ManyToMany(mappedBy = "metros")
+    @ManyToMany(mappedBy = "metros", fetch = FetchType.EAGER)
     @Fetch(value= FetchMode.SELECT)
     private Set<Office> offices;
 

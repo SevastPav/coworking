@@ -6,72 +6,134 @@
       xmlns:sec="http://www.springframework.org/security/tags"
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 <ui:composition>
-    <div class="container">
-        <div class="row">
-            <div class="col-7">
-                <ui:repeat var="office" value="#{searchResultBean.getOffices()}" varStatus="status">
-                    <h:form>
-                        <p:fieldset legend="#{office.title}" toggleable="true" toggleSpeed="500">
-                            <div class="ui-g">
-                                <div class="ui-g-12 ui-md-2">
+    <div class="ui-g ui-g-nopad mt-5">
+        <div class="ui-g-8 ui-g-nopad">
+            <h:form>
+                <div class="ui-g-12 ui-g-nopad border border-dark rounded w-100 h-100">
+                    <div class="ui-g-12">
+                        Найдите и забронируйте коворкинг прямо сейчас
+                    </div>
+                    <div class="ui-g-12 ui-g-nopad">
+                        <div class="ui-g-3 ui-g-nopad">
+                            <div class="ui-g-12">Город</div>
+                            <div class="ui-g-12">
+                                <p:selectCheckboxMenu id="cities" value="#{searchResultBean.cityIds}"
+                                                      label="все"
+                                                      filter="true" filterMatchMode="startsWith"
+                                                      panelStyle="width:500px;">
+                                    <f:selectItems value="#{serviceHolder.cityService.citiesMap}"/>
+                                </p:selectCheckboxMenu>
+                            </div>
+                        </div>
+                        <div class="ui-g-3 ui-g-nopad">
+                            <div class="ui-g-12">Ближайшее метро</div>
+                            <div class="ui-g-12">
+                                <p:selectCheckboxMenu id="metro" value="#{searchResultBean.nearestMetroIds}"
+                                                      label="все"
+                                                      filter="true" filterMatchMode="startsWith"
+                                                      panelStyle="width:500px;">
+                                    <f:selectItems value="#{serviceHolder.metroService.metrosMap}"/>
+                                </p:selectCheckboxMenu>
+                            </div>
+                        </div>
+                        <div class="ui-g-3 ui-g-nopad">
+                            <div class="ui-g-12">Тип аренды</div>
+                            <div class="ui-g-12">
+                                <p:selectCheckboxMenu id="rent" value="#{searchResultBean.typeOfRentIds}"
+                                                      label="все"
+                                                      filter="true" filterMatchMode="startsWith"
+                                                      panelStyle="width:500px;">
+                                    <f:selectItems value="#{serviceHolder.rentTypeService.rentTypesMap}"/>
+                                </p:selectCheckboxMenu>
+                            </div>
+                        </div>
+                        <div class="ui-g-3 ui-g-nopad">
+                            <div class="ui-g-12">Продолжительность</div>
+                            <div class="ui-g-12">
+                                <p:selectCheckboxMenu id="duration" value="#{searchResultBean.durationTypeIds}"
+                                                      label="все"
+                                                      filter="true" filterMatchMode="startsWith"
+                                                      panelStyle="width:500px;">
+                                    <f:selectItems value="#{serviceHolder.durationTypeService.durationTypesMap}"/>
+                                </p:selectCheckboxMenu>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 text-right">
+                        <h:commandButton id="searchButton"
+                                         update=":#{p:component('officesForm')}"
+                                         value="Поиск"/>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+        <div class="ui-g-4"/>
+    </div>
+    <div class="ui-g ui-g-nopad mt-2">
+        <h:form id="officesForm">
+            <div class="ui-g">
+                <div class="ui-g-7 ui-g-nopad">
+                    <ui:repeat var="office" value="#{searchResultBean.getOffices()}" varStatus="status">
+                        <div class="ui-g-12 ui-g-nopad card mt-2">
+                            <div class="ui-g-12">
+                                <h5 class="card-title">#{office.title}</h5>
+                            </div>
+                            <div class="ui-g-12 ui-g-nopad">
+                                <div class="ui-g-3">
                                     <img src="" class="card-img" alt="Фото"/>
                                 </div>
-                                <div class="ui-g-12 ui-md-10 ui-g-nopad">
-                                    <div class="ui-g-12">
+                                <div class="ui-g-9">
+                                    <div class="ui-g-12 ui-g-nopad">
                                         #{office.description}
                                     </div>
                                     <div class="ui-g-12 ui-g-nopad">
-                                        <div class="ui-g-7" style="font-size: 12px;">
-                                            Город: #{office.cityId.name} Адрес: #{office.address}
-                                        </div>
-                                        <div class="ui-g-5" style="text-align: right; font-size: 12px;">
-                                            <h:commandButton id="moreInfoButton"
-                                                             value="Перейти"
-                                                             action="#{searchResultBean.redirectToOfficePage}">
-                                                <f:param name="office" value="#{office.officeId}"/>
-                                            </h:commandButton>
+                                        <div class="ui-g-12 ui-g-nopad text-muted">
+                                            <div class="ui-g-12 ui-g-nopad">
+                                                <small>
+                                                    Город: #{office.cityId.name}
+                                                </small>
+                                            </div>
+                                            <div class="ui-g-12 ui-g-nopad">
+                                                <small>
+                                                    Адрес: #{office.address}
+                                                </small>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="ui-g-12">
-                                        <small class="text-muted">
-                                            Продожительности:
-                                        </small>
                                         <ui:repeat var="duration" value="#{office.durationTypes}"
                                                    varStatus="durationStatus">
                                             <span class="badge badge-info">#{duration.title}</span>
                                         </ui:repeat>
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <small class="text-muted">
-                                            Тип аренды:
-                                        </small>
                                         <ui:repeat var="rent" value="#{office.rentTypes}"
                                                    varStatus="rentStatus">
                                             <span class="badge badge-info">#{rent.title}</span>
                                         </ui:repeat>
                                     </div>
                                     <div class="ui-g-12">
-                                        <p:row>
-                                            <small class="text-muted">
-                                                Возможности:
-                                            </small>
-                                            <ui:repeat var="feature" value="#{office.features}"
-                                                       varStatus="featureStatus">
-                                                <span class="badge badge-secondary">#{feature.title}</span>
-                                            </ui:repeat>
-                                        </p:row>
+                                        <ui:repeat var="feature" value="#{office.features}"
+                                                   varStatus="featureStatus">
+                                            <span class="badge badge-secondary">#{feature.title}</span>
+                                        </ui:repeat>
+                                    </div>
+                                    <div class="ui-g-12 ui-g-nopad" style="text-align: right;">
+                                            <h:commandButton id="moreInfoButton"
+                                                             value="Перейти"
+                                                             action="#{searchResultBean.redirectToOfficePage}">
+                                                <f:param name="office" value="#{office.officeId}"/>
+                                            </h:commandButton>
                                     </div>
                                 </div>
                             </div>
-                        </p:fieldset>
-                    </h:form>
-                </ui:repeat>
+                        </div>
+                    </ui:repeat>
+                </div>
+                <div class="ui-g-5">
+                    <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A07b66e98e01564901e0f0f0f5b6241ab639179149435f73b3a5a8e13261cc1e7&amp;source=constructor"
+                            width="424" height="365" frameborder="0"></iframe>
+                </div>
             </div>
-            <div class="col-5">
-                <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A07b66e98e01564901e0f0f0f5b6241ab639179149435f73b3a5a8e13261cc1e7&amp;source=constructor"
-                        width="424" height="365" frameborder="0"></iframe>
-            </div>
-        </div>
+        </h:form>
     </div>
 </ui:composition>
 </html>

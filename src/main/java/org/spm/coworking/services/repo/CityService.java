@@ -3,6 +3,7 @@ package org.spm.coworking.services.repo;
 import lombok.Getter;
 import org.spm.coworking.entity.City;
 import org.spm.coworking.entity.Metro;
+import org.spm.coworking.entity.Office;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -26,6 +27,21 @@ public class CityService extends BaseRepoService<City> {
 
     public void save(City city){
         repoHolderService.getCityRepository().save(city);
+    }
+
+    @Override
+    public Set<Long> getOfficesIdsByEntityIds(List<Long> ids) {
+        if (ids.isEmpty()){
+            return getAllOfficesIds();
+        }
+        Set<Office> offices = new HashSet<>();
+        List<City> cities = repoHolderService
+                .getCityRepository().findAllByCityIds(new HashSet<>(ids));
+        cities.forEach(c -> {
+            offices.addAll(c.getOffices());
+        });
+        return offices.stream()
+                .map(Office::getOfficeId).collect(Collectors.toSet());
     }
 
     @Override

@@ -29,10 +29,18 @@ public class DurationTypeService extends BaseRepoService<DurationType> {
     }
 
     @Override
-    public Set<Office> getOfficesByEntityId(long id) {
-        Optional<DurationType> durationTypes = repoHolderService.getDurationTypeRepository()
-                .findByDurationTypeId(id);
-        return durationTypes.get().getOffices();
+    public Set<Long> getOfficesIdsByEntityIds(List<Long> ids) {
+        if (ids.isEmpty()){
+            return getAllOfficesIds();
+        }
+        Set<Office> offices = new HashSet<>();
+        List<DurationType> durationTypes = repoHolderService
+                .getDurationTypeRepository().findAllByDurationTypeIds(new HashSet<>(ids));
+        durationTypes.forEach(c -> {
+            offices.addAll(c.getOffices());
+        });
+        return offices.stream()
+                .map(Office::getOfficeId).collect(Collectors.toSet());
     }
 
     @Override

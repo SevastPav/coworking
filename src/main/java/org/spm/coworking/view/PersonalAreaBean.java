@@ -10,7 +10,9 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import javax.faces.context.FacesContext;
 import java.io.IOException;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,6 +32,11 @@ public class PersonalAreaBean extends BaseRegistrationBean {
 
     public void onChange(){
         officeDto = serviceHolder.getOfficeService().findByOfficeId(officeId);
+    }
+
+    public List<Reservation> getTodayReservations(){
+        return serviceHolder.getReservationService()
+                .findAllByOfficeIdAndDate(officeDto, serviceHolder.getWeekService().getToday());
     }
 
     public Map<String, Long> getOfficesMap() {

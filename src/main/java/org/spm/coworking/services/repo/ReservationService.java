@@ -2,9 +2,12 @@ package org.spm.coworking.services.repo;
 
 import lombok.Getter;
 import org.spm.coworking.entity.Feature;
+import org.spm.coworking.entity.Office;
 import org.spm.coworking.entity.Reservation;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,6 +29,12 @@ public class ReservationService extends BaseRepoService<Reservation> {
         return reservations.stream()
                 .collect(Collectors.toMap(r -> r.getPlaceId().getOfficeId().getTitle(),
                         Reservation::getReservationId));
+    }
+
+    public List<Reservation> findAllByOfficeIdAndDate(Office office, LocalDate date){
+        return repoHolderService.getReservationRepository().
+                findAllByOfficeIdAndDate(office, date);
+
     }
 
     @Override

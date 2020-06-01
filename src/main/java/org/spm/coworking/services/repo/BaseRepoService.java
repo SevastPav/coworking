@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Getter
@@ -23,7 +25,13 @@ public abstract class BaseRepoService<T> {
         return enitities;
     }
 
-    public Set<Office> getOfficesByEntityId(long id){
+    public Set<Long> getAllOfficesIds(){
+        List<Office> offices = repoHolderService.getOfficeRepository().findAll();
+        return offices.stream()
+                .map(Office::getOfficeId).collect(Collectors.toSet());
+    }
+
+    public Set<Long> getOfficesIdsByEntityIds(List<Long> ids){
         return new HashSet<>();
     }
 

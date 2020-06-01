@@ -30,7 +30,15 @@ public class Feature implements Serializable {
     @Column(name = "description", length = 255)
     private String description;
 
-    @ManyToMany(mappedBy = "features")
+/*    @Lob
+    @Column(name = "icon", columnDefinition="BLOB")
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] icon;*/
+
+    @OneToOne(mappedBy = "feature", cascade = CascadeType.MERGE)
+    private Image featureIcon;
+
+    @ManyToMany(mappedBy = "features", fetch = FetchType.EAGER)
     @Fetch(value= FetchMode.SELECT)
     private Set<Office> offices;
 

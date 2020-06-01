@@ -3,6 +3,8 @@
   <component name="WebContextManager">
     <option name="state">
       <map>
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/components/add/featureAdd.xhtml" value="file://$PROJECT_DIR$/src/main/webapp/components/add" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/components/add/officeAdd.xhtml" value="file://$PROJECT_DIR$/src/main/webapp/components/add" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/templates/header.xhtml" value="file://$PROJECT_DIR$/src/main/webapp/templates" />
       </map>
     </option>

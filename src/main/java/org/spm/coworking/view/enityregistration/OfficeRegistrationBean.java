@@ -5,20 +5,25 @@ import org.springframework.security.core.context.SecurityContextHolder;*/
 
 import lombok.Data;
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.FileUploadEvent;
 import org.spm.coworking.entity.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.annotation.SessionScope;
 
+import javax.servlet.http.Part;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @SessionScope
 @Data
 public class OfficeRegistrationBean extends BaseRegistrationBean {
+
+    private boolean edit;
 
     private List<Long> durationIds;
     private List<Long> featuresIds;
@@ -118,8 +123,40 @@ public class OfficeRegistrationBean extends BaseRegistrationBean {
     }
 
     @Override
+    protected void editDto() {
+        officeDto.setDurationTypes(new HashSet<>());
+        officeDto.setFeatures(new HashSet<>());
+        officeDto.setRentTypes(new HashSet<>());
+        officeDto.setMetros(new HashSet<>());
+        addDurationTypes();
+        addFeatures();
+        addRentTypes();
+        addMetros();
+        serviceHolder.getOfficeService().save(officeDto);
+    }
+
+    public void updateForEditDto(Office office) {
+        edit = true;
+        officeDto = office;
+        adminId = office.getAdminId().getUserId();
+        cityId = office.getCityId().getCityId();
+        durationIds = officeDto.getDurationTypes().stream().map(DurationType::getDurationTypeId)
+                .collect(Collectors.toList());
+        featuresIds = officeDto.getFeatures().stream().map(Feature::getFeatureId)
+                .collect(Collectors.toList());
+        rentIds = officeDto.getRentTypes().stream().map(RentType::getRentTypeId)
+                .collect(Collectors.toList());
+        metroIds = officeDto.getMetros().stream().map(Metro::getMetroId)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void updateDto() {
+        edit = false;
         durationIds = new ArrayList<>();
+        featuresIds = new ArrayList<>();
+        rentIds = new ArrayList<>();
+        metroIds = new ArrayList<>();
         adminId = Long.valueOf(0);
         cityId = Long.valueOf(0);
         officeDto = new Office();

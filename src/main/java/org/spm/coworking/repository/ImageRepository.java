@@ -1,7 +1,7 @@
 package org.spm.coworking.repository;
 
-import org.spm.coworking.entity.DurationType;
 import org.spm.coworking.entity.Feature;
+import org.spm.coworking.entity.Image;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -11,11 +11,9 @@ import java.util.Optional;
 
 
 @Repository
-public interface FeatureRepository extends JpaRepository<Feature, Long>, JpaSpecificationExecutor<Feature> {
-    List<Feature> findAll();
+public interface ImageRepository extends JpaRepository<Image, Long>, JpaSpecificationExecutor<Image> {
+    List<Image> findAll();
 
-    Optional<Feature> findByFeatureId(Long featureId);
-
-    Optional<Feature> findByTitle(String title);
+    Optional<Image> findByImageId(Long imageId);
 
 }

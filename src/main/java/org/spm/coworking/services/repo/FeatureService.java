@@ -17,6 +17,11 @@ public class FeatureService extends BaseRepoService<Feature> {
         return repoHolderService.getFeatureRepository().findByFeatureId(id);
     }
 
+    public Feature findByFeatureTitle(String title){
+        return repoHolderService.getFeatureRepository()
+                .findByTitle(title).orElse(null);
+    }
+
     public void save(Feature feature){
         repoHolderService.getFeatureRepository().save(feature);
     }

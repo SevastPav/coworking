@@ -33,30 +33,16 @@ public class OfficeService extends BaseRepoService<Office> {
         return repoHolderService.getOfficeRepository().findAll();
     }
 
-    //TODO
-    public List<Office> findOfficesByCityMetroRentDuration(City city,
-                                                           Set<Office> metrosOffices,
-                                                           Set<Office> rentTypesOffices,
-                                                           Set<Office> durationTypesOffices) {
-/*        return repoHolderService.getOfficeRepository()
-                .findAllByMetrosContainsAndDurationTypesContainsAndRentTypesContainsAndCityId(
-                        metros,
-                        durationTypes,
-                        rentTypes,
-                        city);*/
-/*        return repoHolderService.getOfficeRepository()
-                .getAllByMetrosDurationTypesRentTypesAndCity(
-                        metrosOffices,
-                        durationTypesOffices,
-                        rentTypesOffices,
-                        city);*/
-/*        return repoHolderService.getOfficeRepository()
-                .getAllByMetrosDurationTypesRentTypesAndCity(
-                        metrosOffices.stream().map(Office::getOfficeId).collect(Collectors.toSet()),
-                        durationTypesOffices.stream().map(Office::getOfficeId).collect(Collectors.toSet()),
-                        rentTypesOffices.stream().map(Office::getOfficeId).collect(Collectors.toSet()),
-                        city);*/
-        return repoHolderService.getOfficeRepository().findAll();
+    public List<Office> findOfficesByCityMetroRentDuration(Set<Long> cityIds,
+                                                           Set<Long> metrosOfficesIds,
+                                                           Set<Long> rentTypesOfficesIds,
+                                                           Set<Long> durationTypesOfficesIds) {
+        return repoHolderService.getOfficeRepository()
+                .findAllByMetrosDurationTypesRentTypesAndCity(
+                        metrosOfficesIds,
+                        durationTypesOfficesIds,
+                        rentTypesOfficesIds,
+                        cityIds);
     }
 
     @Override

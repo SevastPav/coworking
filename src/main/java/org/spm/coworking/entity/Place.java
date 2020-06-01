@@ -22,7 +22,7 @@ public class Place implements Serializable {
     @Column(name = "place_id", nullable = false, unique = true)
     private Long placeId;
 
-    @Column(name = "internal_place_id", nullable = false, unique = true)
+    @Column(name = "internal_place_id", nullable = false)
     private Long internalPlaceId;
 
     @Column(name = "description", length = 255)
