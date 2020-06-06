@@ -3,6 +3,7 @@ package org.spm.coworking.services.repo;
 import lombok.Getter;
 import org.spm.coworking.entity.DurationType;
 import org.spm.coworking.entity.Feature;
+import org.spm.coworking.entity.Office;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -29,6 +30,21 @@ public class FeatureService extends BaseRepoService<Feature> {
     public Map<String, Long> getFeaturesTypesMap() {
         List<Feature> features = repoHolderService.getFeatureRepository().findAll();
         return features.stream().collect(Collectors.toMap(Feature::getTitle, Feature::getFeatureId));
+    }
+
+    @Override
+    public Set<Long> getOfficesIdsByEntityIds(List<Long> ids) {
+        if (ids.isEmpty()){
+            return getAllOfficesIds();
+        }
+        Set<Office> offices = new HashSet<>();
+        List<Feature> features = repoHolderService
+                .getFeatureRepository().findAllByFeatureIds(new HashSet<>(ids));
+        features.forEach(c -> {
+            offices.addAll(c.getOffices());
+        });
+        return offices.stream()
+                .map(Office::getOfficeId).collect(Collectors.toSet());
     }
 
     @Override

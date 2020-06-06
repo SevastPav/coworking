@@ -3,7 +3,7 @@ package org.spm.coworking.view.enityregistration;
 import lombok.Data;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.file.UploadedFile;
 import org.spm.coworking.entity.Feature;
 import org.spm.coworking.entity.Image;
 import org.springframework.stereotype.Component;
@@ -12,6 +12,7 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @SessionScope
@@ -35,7 +36,7 @@ public class FeatureRegistrationBean extends BaseRegistrationBean {
             error("Некорректное описание функции");
             return false;
         }
-        if (icon == null || icon.getContents().length == 0){
+        if (icon == null || icon.getContent().length == 0){
             errors.add("Выберите иконку");
             error("Выберите иконку");
             return false;
@@ -47,15 +48,11 @@ public class FeatureRegistrationBean extends BaseRegistrationBean {
         icon = event.getFile();
     }
 
-    public void fileUploadListener(FileUploadEvent event) throws IOException {
-        icon = event.getFile();
-    }
-
     @Override
     protected void saveDto() {
         serviceHolder.getFeatureService().save(featureDto);
         Image icon = new Image();
-        icon.setImage(this.icon.getContents());
+        icon.setImage(this.icon.getContent());
         icon.setFeature(featureDto);
         serviceHolder.getImageService().save(icon);
     }

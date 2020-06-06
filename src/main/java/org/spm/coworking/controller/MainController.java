@@ -47,6 +47,11 @@ public class MainController {
         return "/ordersPage.xhtml";
     }
 
+    @GetMapping("/pay")
+    public String pay() {
+        return "/payPage.xhtml";
+    }
+
 /*    @PostMapping("/login")
     public String loginPost() {
         return "/welcomePage.xhtml";

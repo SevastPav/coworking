@@ -1,8 +1,11 @@
 package org.spm.coworking.view;
 
 import lombok.Data;
+import lombok.SneakyThrows;
+import org.primefaces.model.DefaultStreamedContent;
 import org.spm.coworking.entity.*;
 import org.spm.coworking.view.enityregistration.BaseRegistrationBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -16,6 +19,9 @@ import java.util.stream.Collectors;
 @Data
 @SessionScope
 public class OrderBean extends BaseRegistrationBean {
+
+    @Autowired
+    private final PayBean payBean;
 
     public void redirect() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect("search");
@@ -33,6 +39,18 @@ public class OrderBean extends BaseRegistrationBean {
                 .getReservationService().findByReservationId(reservationId).get();
         reservation.setActive(false);
         serviceHolder.getReservationService().save(reservation);
+    }
+
+    @SneakyThrows
+    public void payReservation(Long reservationId) {
+        Reservation reservation = serviceHolder
+                .getReservationService().findByReservationId(reservationId).get();
+        payBean.setReservationDto(reservation);
+        redirectToPay();
+    }
+
+    public void redirectToPay() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("pay");
     }
 
     @Override

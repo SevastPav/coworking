@@ -3,6 +3,8 @@ package org.spm.coworking.entity;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,11 +27,14 @@ public class Office implements Serializable {
     @Column(name = "office_id", nullable = false, unique = true)
     private Long officeId;
 
-    @Column(name = "title", length = 255)
+    @Column(name = "title")
     private String title;
 
-    @Column(name = "description", length = 255)
+    @Column(name = "description", length = 2000)
     private String description;
+
+    @Column(name = "price_per_hour")
+    private Integer pricePerHour;
 
     @Column(name = "address", length = 255)
     private String address;
@@ -37,8 +42,20 @@ public class Office implements Serializable {
     @Column(name = "active", nullable = false)
     private Boolean active = Boolean.TRUE;
 
-    @OneToOne(mappedBy = "office", cascade = CascadeType.MERGE)
+    @OneToOne(mappedBy = "officeMapId",
+            cascade = CascadeType.MERGE,
+            fetch = FetchType.EAGER)
+    private Image officeMapImage;
+
+    @OneToOne(mappedBy = "officeIconId",
+            cascade = CascadeType.MERGE,
+            fetch = FetchType.EAGER)
     private Image officeMainImage;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy="officePhotosId",
+            cascade = CascadeType.MERGE)
+    private List<Image> officeImages;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="user_id")
@@ -49,7 +66,7 @@ public class Office implements Serializable {
     private City cityId;
 
     @OneToMany(mappedBy="officeId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Place> places;
+    private Set<Place> places;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "office_features",

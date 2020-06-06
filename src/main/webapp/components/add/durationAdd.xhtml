@@ -28,6 +28,14 @@
                 </div>
             </div>
             <div class="row pt-3">
+                <div class="col-3">
+                    <h:outputLabel for="durationCountPerHour" value="Количество часов в продоллжительности"/>
+                </div>
+                <div class="col">
+                    <p:inputNumber id="durationCountPerHour" value="#{durationTypeRegistrationBean.durationTypeDto.countOfHours}"/>
+                </div>
+            </div>
+            <div class="row pt-3">
                 <div class="col-4">
                     <p:commandButton value="СОХРАНИТЬ" actionListener="#{durationTypeRegistrationBean.createEntity}"
                                      update="@form" ajax="true"/>

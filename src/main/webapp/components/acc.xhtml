@@ -43,7 +43,7 @@
             <p:menuitem value="РЕДАКТИРОВАТЬ ОФИС"
                         oncomplete="PF('officeAddDlg').show();"
                         action="#{officeRegistrationBean.updateForEditDto(personalAreaBean.officeDto)}"
-                        update=":#{p:component('officeAddDlg')}"/>
+                        update="officeAddDlg"/>
         </p:menubar>
     </h:form>
 </ui:composition>

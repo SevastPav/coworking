@@ -26,7 +26,8 @@
                     <h:outputLabel for="officeDescription" value="Описание офиса"/>
                 </div>
                 <div class="col">
-                    <p:inputText id="officeDescription" value="#{officeRegistrationBean.officeDto.description}"/>
+                    <p:inputTextarea id="officeDescription" rows="6" cols="33"
+                                     value="#{officeRegistrationBean.officeDto.description}"/>
                 </div>
             </div>
             <div class="row pt-3">
@@ -37,7 +38,42 @@
                     <p:inputText id="address" value="#{officeRegistrationBean.officeDto.address}"/>
                 </div>
             </div>
+            <div class="row pt-3">
+                <div class="col-3">
+                    <h:outputLabel for="pricePerHour" value="Цена аренды за час"/>
+                </div>
+                <div class="col">
+                    <p:inputNumber id="pricePerHour" value="#{officeRegistrationBean.officeDto.pricePerHour}"/>
+                </div>
+            </div>
             <c:if test="#{not officeRegistrationBean.edit}">
+                <div class="row pt-3">
+                    <div class="col-3">
+                        <h:outputLabel value="Главное фото"/>
+                    </div>
+                    <div class="col">
+                        <p:fileUpload listener="#{officeRegistrationBean.uploadMainPhoto}"
+                                      auto="true"/>
+                    </div>
+                </div>
+                <div class="row pt-3">
+                    <div class="col-3">
+                        <h:outputLabel value="Фотографии"/>
+                    </div>
+                    <div class="col">
+                        <p:fileUpload listener="#{officeRegistrationBean.uploadPhotos}"
+                                      auto="true"/>
+                    </div>
+                </div>
+                <div class="row pt-3">
+                    <div class="col-3">
+                        <h:outputLabel value="Карта офиса"/>
+                    </div>
+                    <div class="col">
+                        <p:fileUpload listener="#{officeRegistrationBean.uploadMapImage}"
+                                      auto="true"/>
+                    </div>
+                </div>
                 <div class="row pt-3">
                     <div class="col-3">
                         <h:outputLabel for="admin" value="Администратор"/>
@@ -121,7 +157,8 @@
                                          update="@form" ajax="true"/>
                     </div>
                     <div class="col text-right">
-                        <p:commandButton value="НЕ СОХРАНЯТЬ" actionListener="#{officeRegistrationBean.updateForEditDto}"
+                        <p:commandButton value="НЕ СОХРАНЯТЬ"
+                                         actionListener="#{officeRegistrationBean.updateForEditDto}"
                                          oncomplete="PF('officeAddDlg').hide()" ajax="true"/>
                     </div>
                 </div>

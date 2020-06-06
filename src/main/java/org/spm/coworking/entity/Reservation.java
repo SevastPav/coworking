@@ -52,6 +52,12 @@ public class Reservation implements Serializable {
     private Place placeId;
 
     @Override
+    public String toString() {
+        return "Reservation [reservation=" + reservationId
+                + "]";
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;

@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A ClientSystem.
@@ -36,7 +37,7 @@ public class Place implements Serializable {
     private Office officeId;
 
     @OneToMany(mappedBy="placeId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Reservation> reservations;
+    private Set<Reservation> reservations;
 
     @Override
     public boolean equals(Object obj) {

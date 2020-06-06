@@ -36,11 +36,13 @@ public class OfficeService extends BaseRepoService<Office> {
     public List<Office> findOfficesByCityMetroRentDuration(Set<Long> cityIds,
                                                            Set<Long> metrosOfficesIds,
                                                            Set<Long> rentTypesOfficesIds,
-                                                           Set<Long> durationTypesOfficesIds) {
+                                                           Set<Long> durationTypesOfficesIds,
+                                                           Set<Long> featureIds) {
         return repoHolderService.getOfficeRepository()
                 .findAllByMetrosDurationTypesRentTypesAndCity(
                         metrosOfficesIds,
                         durationTypesOfficesIds,
+                        featureIds,
                         rentTypesOfficesIds,
                         cityIds);
     }

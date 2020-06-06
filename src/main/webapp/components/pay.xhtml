@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+<ui:composition>
+    <h:form prependId="false">
+        <p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate/>
+        </p:messages>
+        <p:panelGrid id="pnlCreditCard" columns="4">
+            <f:facet name="header">
+                <pe:creditCard id="creditCard" labelMonthYear="MM/YY" placeholderExpiry="**/**" placeholderName="Optimus Prime"/>
+            </f:facet>
+            <p:inputText id="number" placeholder="Card number" value="#{payBean.cardNumber}"/>
+            <p:inputText id="name" placeholder="Full name" value="#{payBean.fio}"/>
+            <p:inputText id="expiry" placeholder="MM/YY" value="#{payBean.date}"/>
+            <p:inputText id="cvc" placeholder="CVC" value="#{payBean.cvc}"/>
+            <div class="ui-g-12 ui-g-nopad">
+                <p:commandButton value="ОПЛАТИТЬ"
+                                 ajax="true"
+                                 update="@form"
+                                 action="#{payBean.createEntity}"/>
+                <p:commandButton value="ОТМЕНИТЬ"
+                                 update="@form"
+                                 action="#{payBean.redirectToOders}"
+                                 ajax="true"/>
+            </div>
+        </p:panelGrid>
+    </h:form>
+</ui:composition>
+</html>

@@ -18,7 +18,15 @@
             </p>
         </div>
         <div class="ui-g ui-g-nopad">
-            <p class="card-text">Здесь типа фото</p>
+            <ui:repeat var="image"
+                       value="#{officeBean.office.officeImages}"
+                       varStatus="imageStatus">
+                <div class="ui-g">
+                    <p:graphicImage cache="false" value="#{imageService.image}" height="200">
+                        <f:param name="image_id" value="#{image.imageId}"/>
+                    </p:graphicImage>
+                </div>
+            </ui:repeat>
         </div>
         <div class="ui-g ui-g-nopad mt-3">
             <p class="card-text">Функции</p>
@@ -30,8 +38,8 @@
                            varStatus="featureStatus">
                     <div class="ui-g ui-g-nopad">
                         <div class="ui-g-2">
-                            <p:graphicImage cache="false" value="#{officeBean.featureIcon}" height="100px" width="100px">
-                                <f:param name="feature_id" value="#{feature.featureId}"/>
+                            <p:graphicImage cache="false" value="#{imageService.image}" width="95">
+                                <f:param name="image_id" value="#{feature.featureIcon.imageId}"/>
                             </p:graphicImage>
                         </div>
                         <div class="ui-g-10 ui-g-nopad">
@@ -53,8 +61,8 @@
                                    varStatus="featureStatus">
                             <div class="ui-g ui-g-nopad">
                                 <div class="ui-g-3">
-                                    <p:graphicImage cache="false" value="#{officeBean.featureIcon}" height="100px" width="100px">
-                                        <f:param name="feature_id" value="#{feature.featureId}"/>
+                                    <p:graphicImage cache="false" value="#{imageService.image}" width="60">
+                                        <f:param name="image_id" value="#{feature.featureIcon.imageId}"/>
                                     </p:graphicImage>
                                 </div>
                                 <div class="ui-g-9">#{feature.title}</div>
@@ -67,8 +75,8 @@
                                    varStatus="featureStatus">
                             <div class="ui-g ui-g-nopad">
                                 <div class="ui-g-3">
-                                    <p:graphicImage cache="false" value="#{officeBean.featureIcon}" height="100px" width="100px">
-                                        <f:param name="feature_id" value="#{feature.featureId}"/>
+                                    <p:graphicImage cache="false" value="#{imageService.image}" width="60">
+                                        <f:param name="image_id" value="#{feature.featureIcon.imageId}"/>
                                     </p:graphicImage>
                                 </div>
                                 <div class="ui-g-9">#{feature.title}</div>
@@ -81,72 +89,89 @@
         <div class="ui-g ui-g-nopad mt-3">
             <p class="card-text">#{officeBean.office.description}</p>
         </div>
-        <div class="ui-g-6 ui-g-nopad card mt-3">
-            <h:form>
-                <div class="ui-g-12 ui-g-nopad">
-                    <p:messages id="messages" showDetail="true" closable="true">
-                        <p:autoUpdate/>
-                    </p:messages>
-                </div>
-                <div class="ui-g-12 ui-g-nopad mt-3">
-                    <div class="ui-g-6">
-                        <p:outputLabel for="onlydate" value="Дата"/>
+        <div class="ui-g-12 ui-g-nopad mt-3">
+            <div class="ui-g-6 ui-g-nopad card mt-3">
+                <h:form>
+                    <div class="ui-g-12 ui-g-nopad">
+                        <p:messages id="messages" showDetail="true" closable="true">
+                            <p:autoUpdate/>
+                        </p:messages>
                     </div>
-                    <div class="ui-g-6 ui-g-nopad">
-                        <p:calendar id="onlydate" value="#{officeBean.date}"/>
+                    <div class="ui-g-12 ui-g-nopad mt-3">
+                        <div class="ui-g-6">
+                            <p:outputLabel for="onlydate" value="Дата"/>
+                        </div>
+                        <div class="ui-g-6 ui-g-nopad">
+                            <p:calendar id="onlydate" value="#{officeBean.date}"/>
+                        </div>
                     </div>
-                </div>
-                <div class="ui-g-12 ui-g-nopad mt-3">
-                    <div class="ui-g-6">
-                        <p:outputLabel for="time" value="Время"/>
+                    <div class="ui-g-12 ui-g-nopad mt-3">
+                        <div class="ui-g-6">
+                            <p:outputLabel for="time" value="Время"/>
+                        </div>
+                        <div class="ui-g-6 ui-g-nopad">
+                            <p:calendar id="time" value="#{officeBean.time}" pattern="HH:mm" timeOnly="true"/>
+                        </div>
                     </div>
-                    <div class="ui-g-6 ui-g-nopad">
-                        <p:calendar id="time" value="#{officeBean.time}" pattern="HH:mm" timeOnly="true"/>
+                    <div class="ui-g-12 ui-g-nopad mt-3">
+                        <div class="ui-g-6">
+                            <p:outputLabel for="place" value="Место"/>
+                        </div>
+                        <div class="ui-g-6 ui-g-nopad">
+                            <p:selectOneMenu id="place" value="#{officeBean.placeId}">
+                                <f:selectItem itemLabel="Выбрать" itemValue="0" noSelectionOption="true"/>
+                                <f:selectItems value="#{officeBean.internalPlacesMap}"/>
+                            </p:selectOneMenu>
+                        </div>
                     </div>
-                </div>
-                <div class="ui-g-12 ui-g-nopad mt-3">
-                    <div class="ui-g-6">
-                        <p:outputLabel for="place" value="Место"/>
+                    <div class="ui-g-12 ui-g-nopad mt-3">
+                        <div class="ui-g-6">
+                            <p:outputLabel for="rentType" value="Тип аренды"/>
+                        </div>
+                        <div class="ui-g-6 ui-g-nopad">
+                            <p:selectOneMenu id="rentType" value="#{officeBean.typeOfRentId}">
+                                <f:selectItem itemLabel="Выбрать" itemValue="0" noSelectionOption="true"/>
+                                <f:selectItems value="#{officeBean.rentTypesMap}"/>
+                            </p:selectOneMenu>
+                        </div>
                     </div>
-                    <div class="ui-g-6 ui-g-nopad">
-                        <p:selectOneMenu id="place" value="#{officeBean.placeId}">
-                            <f:selectItem itemLabel="Выбрать" itemValue="0" noSelectionOption="true"/>
-                            <f:selectItems value="#{officeBean.internalPlacesMap}"/>
-                        </p:selectOneMenu>
+                    <div class="ui-g-12 ui-g-nopad mt-3">
+                        <div class="ui-g-6">
+                            <p:outputLabel for="duration" value="Продолжительность"/>
+                        </div>
+                        <div class="ui-g-6 ui-g-nopad">
+                            <p:selectOneMenu id="duration" value="#{officeBean.durationTypeId}">
+                                <f:selectItem itemLabel="Выбрать" itemValue="0"
+                                              noSelectionOption="true"/>
+                                <f:selectItems value="#{officeBean.durationTypesMap}"/>
+                                <p:ajax update="sum" listener="#{officeBean.onChangeDurationType}"/>
+                            </p:selectOneMenu>
+                        </div>
                     </div>
-                </div>
-                <div class="ui-g-12 ui-g-nopad mt-3">
-                    <div class="ui-g-6">
-                        <p:outputLabel for="rentType" value="Тип аренды"/>
+                    <div class="ui-g-12 ui-g-nopad mt-3">
+                        <div class="ui-g-6">
+                            <p:outputLabel value="Сумма"/>
+                        </div>
+                        <div class="ui-g-6 ui-g-nopad">
+                            <h:outputText value="#{officeBean.rentSum} руб." id="sum"/>
+                        </div>
                     </div>
-                    <div class="ui-g-6 ui-g-nopad">
-                        <p:selectOneMenu id="rentType" value="#{officeBean.typeOfRentId}">
-                            <f:selectItem itemLabel="Выбрать" itemValue="0" noSelectionOption="true"/>
-                            <f:selectItems value="#{officeBean.rentTypesMap}"/>
-                        </p:selectOneMenu>
+                    <div class="ui-g-12 ui-g-nopad mt-3">
+                        <div class="ui-g-12" style="text-align: right;">
+                            <p:commandButton value="ОПЛАТИТЬ"
+                                             actionListener="#{officeBean.createEntity}"
+                                             update="@form"
+                                             ajax="true"/>
+                        </div>
                     </div>
-                </div>
-                <div class="ui-g-12 ui-g-nopad mt-3">
-                    <div class="ui-g-6">
-                        <p:outputLabel for="duration" value="Продолжительность"/>
-                    </div>
-                    <div class="ui-g-6 ui-g-nopad">
-                        <p:selectOneMenu id="duration" value="#{officeBean.durationTypeId}">
-                            <f:selectItem itemLabel="Выбрать" itemValue="0"
-                                          noSelectionOption="true"/>
-                            <f:selectItems value="#{officeBean.durationTypesMap}"/>
-                        </p:selectOneMenu>
-                    </div>
-                </div>
-                <div class="ui-g-12 ui-g-nopad mt-3">
-                    <div class="ui-g-12" style="text-align: right;">
-                        <p:commandButton value="СОХРАНИТЬ"
-                                         actionListener="#{officeBean.createEntity}"
-                                         update="@form"
-                                         ajax="true"/>
-                    </div>
-                </div>
-            </h:form>
+                </h:form>
+            </div>
+            <div class="ui-g-6 ui-g-nopad mt-3">
+                <p:graphicImage cache="false" value="#{imageService.image}" width="570">
+                    <f:param name="image_id"
+                             value="#{officeBean.office.officeMapImage.imageId}"/>
+                </p:graphicImage>
+            </div>
         </div>
     </div>
 </ui:composition>

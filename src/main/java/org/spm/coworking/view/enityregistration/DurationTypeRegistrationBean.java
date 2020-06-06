@@ -33,6 +33,11 @@ public class DurationTypeRegistrationBean extends BaseRegistrationBean {
             error("Некорректное описание продолжительности аренды");
             return false;
         }
+        if (durationTypeDto.getCountOfHours() == 0){
+            errors.add("Некорректное количество часов");
+            error("Некорректное количество часов");
+            return false;
+        }
         return errors.isEmpty();
     }
 

@@ -6,12 +6,14 @@ import org.springframework.security.core.context.SecurityContextHolder;*/
 import lombok.Data;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.file.UploadedFile;
 import org.spm.coworking.entity.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.annotation.SessionScope;
 
 import javax.servlet.http.Part;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -29,11 +31,12 @@ public class OfficeRegistrationBean extends BaseRegistrationBean {
     private List<Long> featuresIds;
     private List<Long> rentIds;
     private List<Long> metroIds;
+    private UploadedFile mainPhoto;
+    private UploadedFile mapImage;
+    private List<UploadedFile> photos;
 
     private Long adminId;
-
     private Long cityId;
-
     private Office officeDto;
 
     @Override
@@ -54,6 +57,11 @@ public class OfficeRegistrationBean extends BaseRegistrationBean {
             error("Некорректный адрес офиса");
             return false;
         }
+        if (officeDto.getPricePerHour() == 0){
+            errors.add("Некорректная цена за час");
+            error("Некорректная цена за час");
+            return false;
+        }
         if (adminId.equals(Long.valueOf(0))){
             errors.add("Администратор не выбран");
             error("Администратор не выбран");
@@ -72,6 +80,21 @@ public class OfficeRegistrationBean extends BaseRegistrationBean {
         if (durationIds.size() == 0){
             errors.add("Выберите поддерживаемые продолжительности аренды");
             error("Выберите поддерживаемые продолжительности аренды");
+            return false;
+        }
+        if (!edit && (mainPhoto == null || mainPhoto.getContent().length == 0)){
+            errors.add("Загрузите главную фотографию");
+            error("Загрузите главную фотографию");
+            return false;
+        }
+        if (!edit && (photos == null || photos.size() == 0)){
+            errors.add("Загрузите фотографии");
+            error("Загрузите фотографии");
+            return false;
+        }
+        if (!edit && (mapImage == null || mapImage.getContent().length == 0)){
+            errors.add("Загрузите карту офиса");
+            error("Загрузите карту офиса");
             return false;
         }
         return errors.isEmpty();
@@ -109,6 +132,41 @@ public class OfficeRegistrationBean extends BaseRegistrationBean {
         }
     }
 
+    public void uploadMainPhoto(FileUploadEvent event){
+        mainPhoto = event.getFile();
+    }
+
+    public void uploadMapImage(FileUploadEvent event){
+        mapImage = event.getFile();
+    }
+
+    public void uploadPhotos(FileUploadEvent event){
+        photos.add(event.getFile());
+    }
+
+    public void addMainPhoto(){
+        Image mainPhoto = new Image();
+        mainPhoto.setImage(this.mainPhoto.getContent());
+        mainPhoto.setOfficeIconId(officeDto);
+        serviceHolder.getImageService().save(mainPhoto);
+    }
+
+    public void addMapImage(){
+        Image mapImage = new Image();
+        mapImage.setImage(this.mapImage.getContent());
+        mapImage.setOfficeMapId(officeDto);
+        serviceHolder.getImageService().save(mapImage);
+    }
+
+    public void addPhotos(){
+        for (UploadedFile photo:photos) {
+            Image newPhoto = new Image();
+            newPhoto.setImage(photo.getContent());
+            newPhoto.setOfficePhotosId(officeDto);
+            serviceHolder.getImageService().save(newPhoto);
+        }
+    }
+
     @Override
     protected void saveDto() {
         City city = serviceHolder.getCityService().findCityById(cityId);
@@ -120,6 +178,9 @@ public class OfficeRegistrationBean extends BaseRegistrationBean {
         addRentTypes();
         addMetros();
         serviceHolder.getOfficeService().save(officeDto);
+        addMainPhoto();
+        addPhotos();
+        addMapImage();
     }
 
     @Override
@@ -128,6 +189,7 @@ public class OfficeRegistrationBean extends BaseRegistrationBean {
         officeDto.setFeatures(new HashSet<>());
         officeDto.setRentTypes(new HashSet<>());
         officeDto.setMetros(new HashSet<>());
+        officeDto.setOfficeImages(new ArrayList<>());
         addDurationTypes();
         addFeatures();
         addRentTypes();
@@ -152,6 +214,9 @@ public class OfficeRegistrationBean extends BaseRegistrationBean {
 
     @Override
     public void updateDto() {
+        mainPhoto = null;
+        mapImage = null;
+        photos = new ArrayList<>();
         edit = false;
         durationIds = new ArrayList<>();
         featuresIds = new ArrayList<>();
@@ -164,6 +229,7 @@ public class OfficeRegistrationBean extends BaseRegistrationBean {
         officeDto.setFeatures(new HashSet<>());
         officeDto.setRentTypes(new HashSet<>());
         officeDto.setMetros(new HashSet<>());
+        officeDto.setOfficeImages(new ArrayList<>());
     }
 
     @Override

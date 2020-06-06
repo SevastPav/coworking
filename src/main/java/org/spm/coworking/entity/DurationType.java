@@ -31,6 +31,9 @@ public class DurationType implements Serializable {
     @Column(name = "description", length = 255)
     private String description;
 
+    @Column(name = "count_of_hours")
+    private Integer countOfHours;
+
     @ManyToMany(mappedBy = "durationTypes", fetch = FetchType.EAGER)
     @Fetch(value=FetchMode.SELECT)
     private Set<Office> offices;

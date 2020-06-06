@@ -27,6 +27,7 @@ public class SearchResultBean {
     private List<Long> nearestMetroIds = new ArrayList<>();
     private List<Long> typeOfRentIds = new ArrayList<>();
     private List<Long> durationTypeIds = new ArrayList<>();
+    private List<Long> featureIds = new ArrayList<>();
 
     @Autowired
     private SearchFilterBean searchFilterBean;
@@ -49,13 +50,15 @@ public class SearchResultBean {
                 .getOfficesIdsByEntityIds(this.typeOfRentIds);
         Set<Long> durationTypeIds = serviceHolder.getDurationTypeService()
                 .getOfficesIdsByEntityIds(this.durationTypeIds);
+        Set<Long> featureIds = serviceHolder.getFeatureService()
+                .getOfficesIdsByEntityIds(this.featureIds);
 
-        if (SomeUtils.isAnyEmpty(cityIds, metroIds, rentTypeIds, durationTypeIds)){
+        if (SomeUtils.isAnyEmpty(cityIds, metroIds, rentTypeIds, durationTypeIds, featureIds)){
             return new ArrayList<>();
         }
 
         return serviceHolder.getOfficeService()
-                .findOfficesByCityMetroRentDuration(cityIds, metroIds, rentTypeIds, durationTypeIds);
+                .findOfficesByCityMetroRentDuration(cityIds, metroIds, rentTypeIds, durationTypeIds, featureIds);
     }
 
     public void redirectToSearchResult() throws IOException {

@@ -58,31 +58,45 @@
                                 </p:selectCheckboxMenu>
                             </div>
                         </div>
+                        <div class="ui-g-3 ui-g-nopad">
+                            <div class="ui-g-12">Функции</div>
+                            <div class="ui-g-12">
+                                <p:selectCheckboxMenu id="feature" value="#{searchResultBean.featureIds}"
+                                                      label="все"
+                                                      filter="true" filterMatchMode="startsWith"
+                                                      panelStyle="width:500px;">
+                                    <f:selectItems value="#{serviceHolder.featureService.featuresTypesMap}"/>
+                                </p:selectCheckboxMenu>
+                            </div>
+                        </div>
                     </div>
                     <div class="ui-g-12 text-right">
                         <h:commandButton id="searchButton"
-                                         update=":#{p:component('officesForm')}"
+                                         update="officesForm"
                                          value="Поиск"/>
                     </div>
                 </div>
             </h:form>
         </div>
-        <div class="ui-g-4"/>
+        <div class="ui-g-4">
+        </div>
     </div>
-    <div class="ui-g ui-g-nopad mt-2">
+    <div class="ui-g-12 ui-g-nopad mt-2">
         <h:form id="officesForm">
-            <div class="ui-g">
-                <div class="ui-g-7 ui-g-nopad">
+            <div class="ui-g-10 ui-g-nopad">
+                <div class="ui-g-12 ui-g-nopad">
                     <ui:repeat var="office" value="#{searchResultBean.getOffices()}" varStatus="status">
                         <div class="ui-g-12 ui-g-nopad card mt-2">
                             <div class="ui-g-12">
                                 <h5 class="card-title">#{office.title}</h5>
                             </div>
                             <div class="ui-g-12 ui-g-nopad">
-                                <div class="ui-g-3">
-                                    <img src="" class="card-img" alt="Фото"/>
+                                <div class="ui-g-5">
+                                    <p:graphicImage cache="false" value="#{imageService.image}" width="390">
+                                        <f:param name="image_id" value="#{office.officeMainImage.imageId}"/>
+                                    </p:graphicImage>
                                 </div>
-                                <div class="ui-g-9">
+                                <div class="ui-g-7">
                                     <div class="ui-g-12 ui-g-nopad">
                                         #{office.description}
                                     </div>
@@ -127,10 +141,6 @@
                             </div>
                         </div>
                     </ui:repeat>
-                </div>
-                <div class="ui-g-5">
-                    <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A07b66e98e01564901e0f0f0f5b6241ab639179149435f73b3a5a8e13261cc1e7&amp;source=constructor"
-                            width="424" height="365" frameborder="0"></iframe>
                 </div>
             </div>
         </h:form>

@@ -9,43 +9,49 @@
     <div class="container">
         <div class="row">
             <div class="col-7">
-                <h:form id="ordersForm">
-                    <ui:repeat var="reservation" value="#{orderBean.activeUserReservations}" varStatus="status">
-                        <h:form>
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row no-gutters">
-                                    <div class="col-md-4">
-                                        <img src="" class="card-img" alt="Фото"/>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">#{reservation.placeId.officeId.title}</h5>
-                                            <p class="card-text">Номер места: #{reservation.placeId.internalPlaceId}</p>
-                                            <p class="card-text">Описание места: #{reservation.placeId.description}</p>
-                                            <p class="card-text">Тип аренды: #{reservation.rentTypeId.title}</p>
-                                            <p class="card-text">Продолжительность: #{reservation.durationTypeId.title}</p>
-                                            <p class="card-text">Оплачено: #{reservation.paid}</p>
-                                            <p class="card-text">
-                                                <small class="text-muted">
-                                                    Дата: #{reservation.date}
-                                                </small>
-                                            </p>
-                                            <p class="card-text">
-                                                <small class="text-muted">
-                                                    Время: #{reservation.time}
-                                                </small>
-                                            </p>
-                                            <p:commandButton value="Отменить"
+                <ui:repeat var="reservation" value="#{orderBean.activeUserReservations}" varStatus="status">
+                    <h:form>
+                        <div class="card mb-3" style="max-width: 540px;">
+                            <div class="row no-gutters">
+                                <div class="col-md-4">
+                                    <p:graphicImage cache="false" value="#{imageService.image}" width="190">
+                                        <f:param name="image_id"
+                                                 value="#{reservation.placeId.officeId.officeMainImage.imageId}"/>
+                                    </p:graphicImage>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">#{reservation.placeId.officeId.title}</h5>
+                                        <p class="card-text">Номер места: #{reservation.placeId.internalPlaceId}</p>
+                                        <p class="card-text">Описание места: #{reservation.placeId.description}</p>
+                                        <p class="card-text">Тип аренды: #{reservation.rentTypeId.title}</p>
+                                        <p class="card-text">Продолжительность: #{reservation.durationTypeId.title}</p>
+                                        <p class="card-text">Оплачено: #{reservation.paid}</p>
+                                        <p class="card-text">
+                                            <small class="text-muted">
+                                                Дата: #{reservation.date}
+                                            </small>
+                                        </p>
+                                        <p class="card-text">
+                                            <small class="text-muted">
+                                                Время: #{reservation.time}
+                                            </small>
+                                        </p>
+                                        <c:if test="#{not reservation.paid}">
+                                            <p:commandButton value="Оплатить"
                                                              ajax="false"
-                                                             actionListener="#{orderBean.cancelReservation(reservation.reservationId)}"
-                                                             update="@form"/>
-                                        </div>
+                                                             actionListener="#{orderBean.payReservation(reservation.reservationId)}"/>
+                                        </c:if>
+                                        <p:commandButton value="Отменить"
+                                                         ajax="false"
+                                                         actionListener="#{orderBean.cancelReservation(reservation.reservationId)}"
+                                                         update="@form"/>
                                     </div>
                                 </div>
                             </div>
-                        </h:form>
-                    </ui:repeat>
-                </h:form>
+                        </div>
+                    </h:form>
+                </ui:repeat>
             </div>
             <div class="col-5">
 

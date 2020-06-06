@@ -29,21 +29,19 @@
             </div>
             <div class="row pt-3">
                 <div class="col-3">
-                    <h:outputLabel value="Иконка 2"/>
+                    <h:outputLabel value="Иконка"/>
                 </div>
                 <div class="col">
-                    <p:fileUpload fileUploadListener="#{featureRegistrationBean.uploadPhoto}" auto="true" />
+                    <p:fileUpload listener="#{featureRegistrationBean.uploadPhoto}"
+                                  auto="true"/>
                 </div>
             </div>
             <div class="row pt-3">
                 <div class="col-4">
-                    <p:commandButton value="Submit"
+                    <p:commandButton value="СОХРАНИТЬ"
                                      ajax="true"
                                      update="@form"
                                      action="#{featureRegistrationBean.createEntity}"/>
-                    <p:commandButton value="СОХРАНИТЬ"
-                                     actionListener="#{featureRegistrationBean.createEntity}"
-                                     update="@form" ajax="true"/>
                 </div>
                 <div class="col text-right">
                     <p:commandButton value="НЕ СОХРАНЯТЬ" actionListener="#{featureRegistrationBean.updateDto}"

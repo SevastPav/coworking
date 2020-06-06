@@ -34,8 +34,22 @@ public class Image implements Serializable {
     private Feature feature;
 
     @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "office_id")
-    private Office office;
+    @JoinColumn(name = "office_map_id")
+    private Office officeMapId;
+
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "office_photo_id")
+    private Office officeIconId;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name="office_photos_id")
+    private Office officePhotosId;
+
+    @Override
+    public String toString() {
+        return "Image [imageId=" + imageId
+                + "]";
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -45,7 +59,6 @@ public class Image implements Serializable {
         if (obj == null || obj.getClass() != this.getClass()) {
             return false;
         }
-
         Image image = (Image) obj;
         return image.equals(image.imageId);
     }

@@ -1,10 +1,12 @@
 package org.spm.coworking.view;
 
 import lombok.Data;
+import lombok.SneakyThrows;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.spm.coworking.entity.*;
 import org.spm.coworking.view.enityregistration.BaseRegistrationBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -29,6 +31,10 @@ public class OfficeBean extends BaseRegistrationBean {
     private Long typeOfRentId;
     private Long durationTypeId;
     private Long placeId;
+    private int rentSum = 0;
+
+    @Autowired
+    private final PayBean payBean;
 
     public Map<String, Long> getRentTypesMap() {
         return office.getRentTypes().stream().collect(Collectors
@@ -94,6 +100,15 @@ public class OfficeBean extends BaseRegistrationBean {
         return errors.isEmpty();
     }
 
+    public void onChangeDurationType(){
+        Optional<DurationType> durationType = serviceHolder
+                .getDurationTypeService().findByDurationTypeId(durationTypeId);
+        rentSum = durationType
+                .map(type -> type.getCountOfHours() * office.getPricePerHour())
+                .orElse(0);
+    }
+
+    @SneakyThrows
     @Override
     protected void saveDto() {
         if (!serviceHolder.getAuthService().isAuth()){
@@ -114,7 +129,10 @@ public class OfficeBean extends BaseRegistrationBean {
             reservationDto.setDate(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             reservationDto.setTime(time.toInstant().atZone(ZoneId.systemDefault()).toLocalTime());
             reservationDto.setUserId(user);
+            reservationDto.setPaid(false);
             serviceHolder.getReservationService().save(reservationDto);
+            payBean.setReservationDto(reservationDto);
+            redirectToPay();
         }
     }
 
@@ -128,25 +146,8 @@ public class OfficeBean extends BaseRegistrationBean {
         placeId = Long.valueOf(0);
     }
 
-    public StreamedContent getFeatureIcon() {
-        if (FacesContext.getCurrentInstance().getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
-            // So, we're rendering the view. Return a stub StreamedContent so that it will generate right URL.
-            return new DefaultStreamedContent();
-        }
-        else {
-            // So, browser is requesting the image. Return a real StreamedContent with the image bytes.
-            Map<String, String> params = FacesContext.getCurrentInstance()
-                    .getExternalContext().getRequestParameterMap();
-
-            Long featureId = Long.valueOf(params.get("feature_id"));
-            Optional<Feature> feature = serviceHolder
-                    .getFeatureService().findByFeatureId(featureId);
-            if (feature.isPresent()  && feature.get().getFeatureIcon().getImage() != null){
-                return new DefaultStreamedContent(
-                        new ByteArrayInputStream(feature.get().getFeatureIcon().getImage()),
-                        "image/jpeg");
-            }
-            return new DefaultStreamedContent();
-        }
+    public void redirectToPay() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("pay");
     }
+
 }

@@ -23,9 +23,11 @@ public interface OfficeRepository extends JpaRepository<Office, Long>, JpaSpecif
     @Query("select office from Office office where office.officeId in :city and " +
             "office.officeId in :metros and " +
             "office.officeId in :duration and " +
+            "office.officeId in :feature and " +
             "office.officeId in :rent")
     List<Office> findAllByMetrosDurationTypesRentTypesAndCity(@Param("metros") Set<Long> metros,
-                                                             @Param("duration") Set<Long> durationTypes,
+                                                              @Param("duration") Set<Long> durationTypes,
+                                                              @Param("feature") Set<Long> features,
                                                              @Param("rent") Set<Long> rentTypes,
                                                              @Param("city") Set<Long> cityIds);
 
