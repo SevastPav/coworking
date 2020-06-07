@@ -72,7 +72,7 @@ public class UserProfileRegistrationBean extends BaseRegistrationBean {
 
     private void saveDto(Rle role) {
         userProfileDto.setRoles(Collections.singleton(role));
-        userProfileDto.setEntryDate(Date.valueOf(LocalDate.now()));
+        userProfileDto.setEntryDate(serviceHolder.getWeekService().getToday());
         serviceHolder.getUserProfileService().save(userProfileDto);
     }
 

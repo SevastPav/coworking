@@ -34,6 +34,11 @@ public class OrderBean extends BaseRegistrationBean {
         return reservations.stream().filter(Reservation::getActive).collect(Collectors.toList());
     }
 
+    public boolean isActive(Long reservationId){
+        return serviceHolder
+                .getReservationService().findByReservationId(reservationId).get().getActive();
+    }
+
     public void cancelReservation(Long reservationId) {
         Reservation reservation = serviceHolder
                 .getReservationService().findByReservationId(reservationId).get();
@@ -45,6 +50,7 @@ public class OrderBean extends BaseRegistrationBean {
     public void payReservation(Long reservationId) {
         Reservation reservation = serviceHolder
                 .getReservationService().findByReservationId(reservationId).get();
+        payBean.updateDto();
         payBean.setReservationDto(reservation);
         redirectToPay();
     }

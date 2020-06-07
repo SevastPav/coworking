@@ -1,0 +1,120 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:sec="http://www.springframework.org/security/tags"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition>
+    <ui:include src="../components/add/officeAdd.xhtml"/>
+    <h:form>
+        <div class="ui-g mt-5">
+            <p:selectOneMenu id="office" value="#{personalAreaBean.officeId}">
+                <f:selectItems value="#{personalAreaBean.officesMap}"/>
+                <p:ajax update="@form" listener="#{personalAreaBean.onChange}"/>
+            </p:selectOneMenu>
+        </div>
+        <div class="ui-g mt-3">
+            <h5 class="card-title">Офис - #{personalAreaBean.officeDto.title}</h5>
+        </div>
+        <div class="ui-g mt-3">
+            Бронирования на сегодня - #{serviceHolder.weekService.today}
+        </div>
+        <div class="ui-g-12 mt-1">
+            <p:dataTable var="reservation" value="#{personalAreaBean.todayReservations}">
+                <p:column headerText="Пользователь">
+                    <h:outputText value="#{reservation.userId.fio}"/>
+                </p:column>
+                <p:column headerText="Время">
+                    <h:outputText value="#{reservation.time}"/>
+                </p:column>
+                <p:column headerText="Место">
+                    <h:outputText value="#{reservation.placeId.internalPlaceId}"/>
+                </p:column>
+                <p:column headerText="Тип аренды">
+                    <h:outputText value="#{reservation.rentTypeId.title}"/>
+                </p:column>
+                <p:column headerText="Оплачено">
+                    <h:outputText value="#{reservation.paid}"/>
+                </p:column>
+                <p:column headerText="Активно">
+                    <h:outputText value="#{reservation.active}"/>
+                </p:column>
+                <p:column headerText="Отменить">
+                    <p:commandButton value="Отменить"
+                                     rendered="#{orderBean.isActive(reservation.reservationId)}"
+                                     ajax="false"
+                                     actionListener="#{orderBean.cancelReservation(reservation.reservationId)}"
+                                     update="dataId"/>
+                </p:column>
+            </p:dataTable>
+        </div>
+        <div class="ui-g-12 mt-1">
+            <p:commandButton value="Редактирвоать офис"
+                             oncomplete="PF('officeAddDlg').show();"
+                             update="officeAddDlg"
+                             action="#{officeRegistrationBean.updateForEditDto(personalAreaBean.officeDto)}"/>
+        </div>
+    </h:form>
+
+    <div class="ui-g-12 ui-g-nopad mt-3">
+        <h:form id="filterId">
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-3">
+                    <p:calendar id="startDate" value="#{personalAreaBean.startDate}"
+                                placeholder="Начальная дата"/>
+                </div>
+                <div class="ui-g-3">
+                    <p:calendar id="endDate" value="#{personalAreaBean.endDate}"
+                                placeholder="Конечная дата"/>
+                </div>
+                <div class="ui-g-3">
+                    <p:commandButton value="Показать" ajax="false"
+                                     update="dataId"
+                                     action="#{personalAreaBean.showReservations}"/>
+                </div>
+            </div>
+        </h:form>
+
+        <h:form id="dataId">
+            <div class="ui-g-12 ui-g-nopad mt-2">
+                <div class="ui-g-12">
+                    <h4>Количество броней - #{personalAreaBean.reservations.size()}</h4>
+                    <h4>Количество броней - #{personalAreaBean.paidReservations.size()}</h4>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-g-nopad mt-3">
+                <h5 class="card-title">Статистика мест</h5>
+            </div>
+            <div class="ui-g-12 ui-g-nopad card mt-2" style="min-height: 30px">
+                <ui:repeat var="place" value="#{personalAreaBean.placesFreq}" varStatus="status">
+                    <p class="card-text">Место = количество броней: #{place}</p>
+                </ui:repeat>
+            </div>
+            <div class="ui-g-12 ui-g-nopad mt-2">
+                <ui:repeat var="reservation" value="#{personalAreaBean.reservations}" varStatus="status">
+                    <div class="ui-g-3 card">
+                        <div class="card-body">
+                            <h5 class="card-title">ФИО: #{reservation.userId.fio}</h5>
+                            <p class="card-text">Дата: #{reservation.date}</p>
+                            <p class="card-text">Время: #{reservation.time}</p>
+                            <p class="card-text">Место: #{reservation.placeId.internalPlaceId}</p>
+                            <p class="card-text">Активна: #{reservation.active}</p>
+                            <p class="card-text">Оплачена: #{reservation.paid}</p>
+                            <p:commandButton value="Отменить"
+                                             rendered="#{orderBean.isActive(reservation.reservationId)}"
+                                             ajax="false"
+                                             actionListener="#{orderBean.cancelReservation(reservation.reservationId)}"
+                                             update="dataId"/>
+                        </div>
+                    </div>
+                </ui:repeat>
+            </div>
+        </h:form>
+    </div>
+
+</ui:composition>
+</html>

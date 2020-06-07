@@ -37,6 +37,20 @@ public class ReservationService extends BaseRepoService<Reservation> {
 
     }
 
+    public List<Reservation> findAllByOfficeIdAndDateBeforeAndDateAfter(Long officeId, LocalDate dateBefore,
+                                                                        LocalDate dateAfter){
+        return repoHolderService.getReservationRepository().
+                findAllByOfficeIdAndDateBeforeAndDateAfter(officeId, dateBefore, dateAfter);
+
+    }
+
+    public List<Reservation> findAllByDateBeforeAndDateAfter(LocalDate dateBefore,
+                                                             LocalDate dateAfter){
+        return repoHolderService.getReservationRepository().
+                findAllByDateBeforeAndDateAfter(dateBefore, dateAfter);
+
+    }
+
     @Override
     public Set<Reservation> getSetOfEntitiesById(long id) {
         Optional<Reservation> reservations = repoHolderService.getReservationRepository()

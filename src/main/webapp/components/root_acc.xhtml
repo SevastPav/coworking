@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:sec="http://www.springframework.org/security/tags"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition>
+    <div class="ui-g mt-3">
+        <h5 class="card-title">Количество офисов - #{officeService.findAll().size()}</h5>
+    </div>
+    <div class="ui-g-12 ui-g-nopad mt-2">
+        <ui:repeat var="office" value="#{officeService.findAll()}" varStatus="status">
+            <div class="ui-g-4 card">
+                <div class="card-body">
+                    <h5 class="card-title">#{office.title}</h5>
+                    <p class="card-text">Администратор: #{office.adminId.fio}</p>
+                    <p class="card-text">Город: #{office.cityId.name}</p>
+                    <p class="card-text">Адрес: #{office.address}</p>
+                </div>
+            </div>
+        </ui:repeat>
+    </div>
+
+    <div class="ui-g-12 ui-g-nopad mt-3">
+        <h:form id="filterId">
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+            <div class="ui-g-12 ui-g-nopad">
+                <div class="ui-g-3">
+                    <p:calendar id="startDate" value="#{personalAreaBean.startDate}"
+                                placeholder="Начальная дата"/>
+                </div>
+                <div class="ui-g-3">
+                    <p:calendar id="endDate" value="#{personalAreaBean.endDate}"
+                                placeholder="Конечная дата"/>
+                </div>
+                <div class="ui-g-3">
+                    <p:commandButton value="Показать" ajax="false"
+                                     update="dataId"
+                                     action="#{personalAreaBean.showStatistic}"/>
+                </div>
+            </div>
+        </h:form>
+
+        <h:form id="dataId">
+            <div class="ui-g-12 ui-g-nopad mt-2">
+                <div class="ui-g-12">
+                    <h4>Количество броней - #{personalAreaBean.rootReservations.size()}</h4>
+                    <h4>Количество новых пользователей - #{personalAreaBean.newUsers.size()}</h4>
+                </div>
+            </div>
+        </h:form>
+    </div>
+</ui:composition>
+</html>

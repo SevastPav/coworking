@@ -6,6 +6,7 @@ import org.spm.coworking.entity.Rle;
 import org.spm.coworking.entity.UserProfile;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -21,6 +22,13 @@ public class UserProfileService extends BaseRepoService<UserProfile> {
 
     public Optional<UserProfile> findByLogin(String username){
         return  repoHolderService.getUserProfileRepository().findByLogin(username);
+    }
+
+    public List<UserProfile> findAllByDateBeforeAndDateAfter(LocalDate dateBefore,
+                                                             LocalDate dateAfter){
+        return repoHolderService.getUserProfileRepository().
+                findAllByDateBeforeAndDateAfter(dateBefore, dateAfter);
+
     }
 
     public Map<String, Long> getAdminUsersMap() {

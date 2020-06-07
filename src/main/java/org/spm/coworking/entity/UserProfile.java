@@ -4,7 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -43,7 +43,7 @@ public class UserProfile implements Serializable {
     private String fio;
 
     @Column(name = "entry_date")
-    private Date entryDate;
+    private LocalDate entryDate;
 
     @OneToMany(mappedBy="adminId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Office> managedOffices;

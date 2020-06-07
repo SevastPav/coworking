@@ -27,4 +27,18 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>,
     List<Reservation> findAllByOfficeIdAndDate(@Param("office") Office office,
                                                @Param("date") LocalDate date);
 
+    @Query("select reservation from Reservation reservation where " +
+            "reservation.date >= :dateBefore and " +
+            "reservation.date <= :dateAfter and " +
+            "reservation.placeId.officeId.officeId = :officeId")
+    List<Reservation> findAllByOfficeIdAndDateBeforeAndDateAfter(@Param("officeId") Long officeId,
+                                                                 @Param("dateBefore") LocalDate dateBefore,
+                                                                 @Param("dateAfter") LocalDate dateAfter);
+
+    @Query("select reservation from Reservation reservation where " +
+            "reservation.date >= :dateBefore and " +
+            "reservation.date <= :dateAfter")
+    List<Reservation> findAllByDateBeforeAndDateAfter(@Param("dateBefore") LocalDate dateBefore,
+                                                      @Param("dateAfter") LocalDate dateAfter);
+
 }
