@@ -89,6 +89,7 @@ public class UserProfileRegistrationBean extends BaseRegistrationBean {
     @Override
     public void updateDto() {
         userProfileDto = new UserProfile();
+        password = "";
     }
 
     @Override
