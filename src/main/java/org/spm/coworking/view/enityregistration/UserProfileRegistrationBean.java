@@ -8,6 +8,8 @@ import org.primefaces.PrimeFaces;
 import org.spm.coworking.entity.RentType;
 import org.spm.coworking.entity.Rle;
 import org.spm.coworking.entity.UserProfile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.annotation.SessionScope;
@@ -22,7 +24,11 @@ import java.util.Collections;
 @Data
 public class UserProfileRegistrationBean extends BaseRegistrationBean {
 
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     UserProfile userProfileDto;
+
+    private String password;
 
     @Override
     protected boolean validateDto() {
@@ -42,7 +48,7 @@ public class UserProfileRegistrationBean extends BaseRegistrationBean {
             errors.add("Такой пользователь уже существует");
             error("Такой пользователь уже существует");
         }
-        if (userProfileDto.getPassword().isEmpty()) {
+        if (password.isEmpty()) {
             errors.add("Введите пароль");
             error("Введите пароль");
         }
@@ -71,6 +77,7 @@ public class UserProfileRegistrationBean extends BaseRegistrationBean {
     }
 
     private void saveDto(Rle role) {
+        userProfileDto.setPassword(passwordEncoder.encode(password));
         userProfileDto.setRoles(Collections.singleton(role));
         userProfileDto.setEntryDate(serviceHolder.getWeekService().getToday());
         serviceHolder.getUserProfileService().save(userProfileDto);
