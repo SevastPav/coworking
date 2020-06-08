@@ -8,6 +8,11 @@
 <ui:composition>
     <div class="ui-g-12 ui-g-nopad mt-2">
         <div class="ui-g-7 ui-g-nopad">
+            <c:if test="#{orderBean.activeUserReservations.size() == 0}">
+                У вас еще нет бронирований
+            </c:if>
+        </div>
+        <div class="ui-g-7 ui-g-nopad">
             <ui:repeat var="reservation" value="#{orderBean.activeUserReservations}" varStatus="status">
                 <h:form>
                     <div class="ui-g-12 ui-g-nopad mt-2 card">

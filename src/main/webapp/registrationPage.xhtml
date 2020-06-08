@@ -18,10 +18,14 @@
 
                     <p:commandButton value="Зарегистрироваться" ajax="false"
                                      action="#{userProfileRegistrationBean.saveUser()}" update="@form"/>
-                    <p:commandButton value="Зарегистрировать Администратора" ajax="false"
-                                     action="#{userProfileRegistrationBean.saveAdmin()}" update="@form"/>
-                    <p:commandButton value="Зарегистрировать Root" ajax="false"
-                                     action="#{userProfileRegistrationBean.saveRoot()}" update="@form"/>
+                    <c:if test="#{authService.hasRole('ADMIN') || authService.hasRole('ROOT')}">
+                        <p:commandButton value="Зарегистрировать Администратора" ajax="false"
+                                         action="#{userProfileRegistrationBean.saveAdmin()}" update="@form"/>
+                    </c:if>
+                    <c:if test="#{authService.hasRole('ROOT') || userProfileService.setOfAllEntities.size() == 0}">
+                        <p:commandButton value="Зарегистрировать Root" ajax="false"
+                                         action="#{userProfileRegistrationBean.saveRoot()}" update="@form"/>
+                    </c:if>
                 </p:panelGrid>
             </h:form>
         </div>

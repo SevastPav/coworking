@@ -72,6 +72,12 @@ public class OfficeBean extends BaseRegistrationBean {
     @Override
     protected boolean validateDto() {
         errors = new ArrayList<>();
+        if (!serviceHolder.getAuthService().isAuth() ||
+            !serviceHolder.getAuthService().hasRole(Rle.USER.name())){
+            errors.add("Войдите или зарегистрируйтесь, чтобы забронировать офис");
+            error("Войдите или зарегистрируйтесь, чтобы забронировать офис");
+            return false;
+        }
         if (date == null) {
             errors.add("Некорректная дата");
             error("Некорректная дата");

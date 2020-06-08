@@ -13,72 +13,76 @@
     <ui:include src="../components/add/officeAdd.xhtml"/>
     <ui:include src="../components/add/featureAdd.xhtml"/>
     <ui:include src="../components/add/placeAdd.xhtml"/>
-    <div class="container">
-        <div class="row mt-5">
-            <h:form>
-                <p:menubar styleClass="table-menu__main">
-                    <p:menuitem value="ДОБАВИТЬ ГОРОД"
-                                oncomplete="PF('cityAddDlg').show();"
-                                action="#{cityRegistrationBean.updateDto}"
-                                update="cityAddDlg"/>
-                </p:menubar>
-            </h:form>
-
-            <h:form>
-                <p:menubar styleClass="table-menu__main">
-                    <p:menuitem value="ДОБАВИТЬ МЕТРО"
-                                oncomplete="PF('metroAddDlg').show();"
-                                action="#{metroRegistrationBean.updateDto}"
-                                update="metroAddDlg"/>
-                </p:menubar>
-            </h:form>
-
-            <h:form>
-                <p:menubar styleClass="table-menu__main">
-                    <p:menuitem value="ДОБАВИТЬ ТИП АРЕНДЫ"
-                                oncomplete="PF('rentAddDlg').show();"
-                                action="#{rentTypeRegistrationBean.updateDto}"
-                                update="rentAddDlg"/>
-                </p:menubar>
-            </h:form>
-
-            <h:form>
-                <p:menubar styleClass="table-menu__main">
-                    <p:menuitem value="ДОБАВИТЬ ПРОДОЛЖИТЕЛЬНОСТЬ АРЕНДЫ"
-                                oncomplete="PF('durationAddDlg').show();"
-                                action="#{durationTypeRegistrationBean.updateDto}"
-                                update="durationAddDlg"/>
-                </p:menubar>
-            </h:form>
-
-            <h:form>
-                <p:menubar styleClass="table-menu__main">
-                    <p:menuitem value="ДОБАВИТЬ ФУНКЦИЮ"
-                                oncomplete="PF('featureAddDlg').show();"
-                                action="#{featureRegistrationBean.updateDto}"
-                                update="featureAddDlg"/>
-                </p:menubar>
-            </h:form>
-
-            <h:form>
-                <p:menubar styleClass="table-menu__main">
-                    <p:menuitem value="ДОБАВИТЬ ОФИС"
-                                oncomplete="PF('officeAddDlg').show();"
-                                action="#{officeRegistrationBean.updateDto}"
-                                update="officeAddDlg"/>
-                </p:menubar>
-            </h:form>
-
-            <h:form>
-                <p:menubar styleClass="table-menu__main">
-                    <p:menuitem value="ДОБАВИТЬ МЕСТО В ОФИСЕ"
-                                oncomplete="PF('placeAddDlg').show();"
-                                action="#{officeRegistrationBean.updateDto}"
-                                update="placeAddDlg"/>
-                </p:menubar>
-            </h:form>
-
-        </div>
+    <div class="ui-g-12 ui-g-nopad mt-3">
+        <c:if test="#{authService.hasRole('ADMIN') || authService.hasRole('ROOT')}">
+            <div class="ui-g-3 card">
+                <h:form>
+                    <p class="card-text">Добавить тип аренды</p>
+                    <p:commandButton value="Добавить"
+                                     oncomplete="PF('rentAddDlg').show();"
+                                     action="#{rentTypeRegistrationBean.updateDto}"
+                                     update="rentAddDlg"/>
+                </h:form>
+            </div>
+            <div class="ui-g-3 card">
+                <h:form>
+                    <p class="card-text">Добавить продолжительность аренды</p>
+                    <p:commandButton value="Добавить"
+                                     oncomplete="PF('durationAddDlg').show();"
+                                     action="#{durationTypeRegistrationBean.updateDto}"
+                                     update="durationAddDlg"/>
+                </h:form>
+            </div>
+            <div class="ui-g-3 card">
+                <h:form>
+                    <p class="card-text">Добавить новую функцию</p>
+                    <p:commandButton value="Добавить"
+                                     oncomplete="PF('featureAddDlg').show();"
+                                     action="#{featureRegistrationBean.updateDto}"
+                                     update="featureAddDlg"/>
+                </h:form>
+            </div>
+        </c:if>
+        <c:if test="#{authService.hasRole('ADMIN')}">
+            <div class="ui-g-3 card">
+                <h:form>
+                    <p class="card-text">Добавить новое место</p>
+                    <p:commandButton value="Добавить"
+                                     oncomplete="PF('placeAddDlg').show();"
+                                     action="#{officeRegistrationBean.updateDto}"
+                                     update="placeAddDlg"/>
+                </h:form>
+            </div>
+        </c:if>
+        <c:if test="#{authService.hasRole('ROOT')}">
+            <div class="ui-g-3 card">
+                <h:form>
+                    <p class="card-text">Добавить новый город</p>
+                    <p:commandButton value="Добавить"
+                                     oncomplete="PF('cityAddDlg').show();"
+                                     update="cityAddDlg"
+                                     action="#{cityRegistrationBean.updateDto}"/>
+                </h:form>
+            </div>
+            <div class="ui-g-3 card">
+                <h:form>
+                    <p class="card-text">Добавить новое метро</p>
+                    <p:commandButton value="Добавить"
+                                     oncomplete="PF('metroAddDlg').show();"
+                                     action="#{metroRegistrationBean.updateDto}"
+                                     update="metroAddDlg"/>
+                </h:form>
+            </div>
+            <div class="ui-g-3 card">
+                <h:form>
+                    <p class="card-text">Добавить новый офис</p>
+                    <p:commandButton value="Добавить"
+                                     oncomplete="PF('officeAddDlg').show();"
+                                     action="#{officeRegistrationBean.updateDto}"
+                                     update="officeAddDlg"/>
+                </h:form>
+            </div>
+        </c:if>
     </div>
 </ui:composition>
 </html>

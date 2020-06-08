@@ -50,7 +50,7 @@
             </p:dataTable>
         </div>
         <div class="ui-g-12 mt-1">
-            <p:commandButton value="Редактирвоать офис"
+            <p:commandButton value="Редактировать офис"
                              oncomplete="PF('officeAddDlg').show();"
                              update="officeAddDlg"
                              action="#{officeRegistrationBean.updateForEditDto(personalAreaBean.officeDto)}"/>
@@ -83,7 +83,7 @@
             <div class="ui-g-12 ui-g-nopad mt-2">
                 <div class="ui-g-12">
                     <h4>Количество броней - #{personalAreaBean.reservations.size()}</h4>
-                    <h4>Количество броней - #{personalAreaBean.paidReservations.size()}</h4>
+                    <h4>Количество оплаченных броней - #{personalAreaBean.paidReservations.size()}</h4>
                 </div>
             </div>
             <div class="ui-g-12 ui-g-nopad mt-3">

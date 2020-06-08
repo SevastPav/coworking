@@ -22,7 +22,7 @@ public class MainController {
 
     //Мы могли бы расписать эти 2 маппинга отдельно, но смысла дублировать одинаковый код нет.
     // этот метод будет слушать запросы на "/" и "/index"
-    @GetMapping(value = {"/", "/index"})
+    @GetMapping(value = {"/", "/index, /home"})
     public String index() {
         return "/welcomePage.xhtml";
     }
@@ -52,14 +52,14 @@ public class MainController {
         return "/payPage.xhtml";
     }
 
-/*    @PostMapping("/login")
-    public String loginPost() {
-        return "/welcomePage.xhtml";
-    }*/
+    @GetMapping("/search")
+    public String searchGet() {
+        return "/searchPage.xhtml";
+    }
 
-    @GetMapping("/generation")
-    public String generation() {
-        return "/generationPage.xhtml";
+    @GetMapping("/office")
+    public String officeGet() {
+        return "/officePage.xhtml";
     }
 
     @GetMapping("/registration")
@@ -74,62 +74,5 @@ public class MainController {
         userProfileRepository.save(user);
         return "/registrationPage.xhtml";
     }
-
-    @GetMapping("/home")
-    public String homeGet() {
-        return "/welcomePage.xhtml";
-    }
-
-    @GetMapping("/search")
-    public String searchGet() {
-        return "/searchPage.xhtml";
-    }
-
-    @GetMapping("/office")
-    public String officeGet() {
-        return "/officePage.xhtml";
-    }
-
-    @GetMapping("/training_desc")
-    public String trainingDesc() {
-        return "/trainingDescPage.xhtml";
-    }
-
-    @GetMapping("/statistic")
-    public String statistic() {
-        return "/statisticPage.xhtml";
-    }
-
-    @GetMapping("/services")
-    public String services() {
-        return "/servicesPage.xhtml";
-    }
-
-    @GetMapping("/timetable")
-    public String timetable() {
-        return "/timetablePage.xhtml";
-    }
-
-    @GetMapping("/contacts")
-    public String contacts() {
-        return "/contactsPage.xhtml";
-    }
-
-    @GetMapping("/create_training")
-    public String createTraining() {
-        return "/createTrainingPage.xhtml";
-    }
-
-    @GetMapping("/training_list")
-    public String trainingList() {
-        return "/trainingListPage.xhtml";
-    }
-
-/*    @GetMapping("/delete_training")
-    public String deleteTraining(@RequestParam(name = "id") Long id) {
-        Optional<Training> training = trainingRepository.findByTrainingId(id);
-        training.ifPresent(trainingRepository::delete);
-        return "/trainingListPage.xhtml";
-    }*/
 
 }
