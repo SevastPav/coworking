@@ -25,29 +25,22 @@ public class AuthService {
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
-        for (GrantedAuthority rle:roles) {
-            if (rle.getAuthority().contains(role))
-                return true;
-        }
-        return false;
+        return roles.stream()
+                .anyMatch(r -> ((GrantedAuthority) r).getAuthority().contains(role));
     }
 
     public boolean isAuth(){
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
-        for (GrantedAuthority rle:roles) {
-            if (rle.getAuthority().contains("ROLE_ANONYMOUS"))
-                return false;
-        }
-        return true;
+        return roles.stream()
+                .anyMatch(r -> ((GrantedAuthority) r).getAuthority().contains("ROLE_ANONYMOUS"));
     }
 
     public UserProfile getCurrentUserProfile(){
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
-        Optional<UserProfile> user = userProfileService.findByLogin(authentication.getName());
-        return user.orElse(null);
+        return userProfileService.findByLogin(authentication.getName()).orElse(null);
     }
 
 }

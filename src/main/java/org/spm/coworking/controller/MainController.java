@@ -20,8 +20,6 @@ public class MainController {
         this.userProfileRepository = userProfileRepository;
     }
 
-    //Мы могли бы расписать эти 2 маппинга отдельно, но смысла дублировать одинаковый код нет.
-    // этот метод будет слушать запросы на "/" и "/index"
     @GetMapping(value = {"/", "/index, /home"})
     public String index() {
         return "/welcomePage.xhtml";

@@ -122,7 +122,6 @@ public class OfficeBean extends BaseRegistrationBean {
         }
         if (serviceHolder.getAuthService().hasRole(Rle.USER.name())){
             UserProfile user = serviceHolder.getAuthService().getCurrentUserProfile();
-
             DurationType durationType = serviceHolder
                     .getDurationTypeService().findByDurationTypeId(durationTypeId).get();
             RentType rentType = serviceHolder

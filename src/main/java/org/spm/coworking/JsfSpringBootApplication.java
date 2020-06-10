@@ -53,36 +53,6 @@ public class JsfSpringBootApplication implements ServletContextAware {
 		return configurer;
 	}
 
-/*
-	@Bean
-	public FilterRegistrationBean primeFacesFileUploadFilter(@Autowired ServletRegistrationBean<FacesServlet> facesServletServletRegistrationBean) {
-		FilterRegistrationBean registration =
-				new FilterRegistrationBean(new org.primefaces.webapp.filter.FileUploadFilter(), facesServletServletRegistrationBean);
-		registration.setName("primeFacesFileUploadFilter");
-		registration.addUrlPatterns("/*");
-		registration.setDispatcherTypes(DispatcherType.FORWARD, DispatcherType.REQUEST);
-		return registration;
-	}
-
-	@Bean
-	public FacesServlet facesServlet() {
-		return new FacesServlet();
-	}
-*/
-
-/*	@Bean
-	public FilterRegistrationBean someFilterRegistration(@Autowired ServletRegistrationBean<FacesServlet> facesServletServletRegistrationBean) {
-		FilterRegistrationBean registration = new FilterRegistrationBean(someFilter(), facesServletServletRegistrationBean);
-		registration.setName("PrimeFaces FileUpload Filter");
-		registration.setDispatcherTypes(DispatcherType.FORWARD, DispatcherType.REQUEST);
-		registration.setOrder(1);
-		return registration;
-	}
-
-	public Filter someFilter() {
-		return new org.primefaces.webapp.filter.FileUploadFilter();
-	}
-	*/
 	@Bean
 	public FilterRegistrationBean FileUploadFilter() {
 		FilterRegistrationBean registration = new FilterRegistrationBean();
