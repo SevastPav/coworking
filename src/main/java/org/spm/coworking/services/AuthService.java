@@ -34,7 +34,7 @@ public class AuthService {
                 SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
         return roles.stream()
-                .anyMatch(r -> ((GrantedAuthority) r).getAuthority().contains("ROLE_ANONYMOUS"));
+                .noneMatch(r -> ((GrantedAuthority) r).getAuthority().contains("ROLE_ANONYMOUS"));
     }
 
     public UserProfile getCurrentUserProfile(){
@@ -44,3 +44,4 @@ public class AuthService {
     }
 
 }
+
